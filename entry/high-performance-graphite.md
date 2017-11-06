@@ -1,5 +1,5 @@
 ---
-Title: "Mackerelを支える時系列データベース技術"
+Title: Mackerelを支える時系列データベース技術
 Category:
 - Graphite
 - Mackerel
@@ -173,8 +173,8 @@ https://github.com/graphite-project/carbon/blob/0.9.12/conf/carbon.conf.example
 
 `WHISPER_FALLOCATE_CREATE`は[fallocate(2)](http://man7.org/linux/man-pages/man2/fallocate.2.html)を使うことによりwhisperのファイル作成が高速化されます。fallocateが使用可能なファイルシステムあれば使ったほうがよいでしょう。高速な理由は、空のarchive領域を確保するのに、writeシステムコールでゼロフィルするより、事前に連続領域をOSに予約してからゼロフィルしているためのようです。(https://github.com/graphite-project/whisper/blob/0.9.12/whisper.py#L384-397)
 
-実際はパラメータについて試行錯誤しましたが、全体としてはcarbon-cacheに何もさせないようなチューニングになっています。
-ioDriveのような高性能なディスクを使う場合は、I/Oスケジューラもnoopを選んで何もさせないようにすることが多いと思いますが、carbon-cacheも同様で下手にI/O性能の管理をさせるよりは、何もさせないほうがよいようです。
+各種パラメータについて試行錯誤した結果、全体としてはcarbon-cacheに何もさせないようなチューニングになっています。
+ioDriveのような高性能なディスクを使う場合は、I/Oスケジューラもnoopを選んで何もさせないようにすることが多いため、carbon-cacheも同様に下手にI/O性能の管理をさせるよりは、何もさせないほうがよいようです。
 
 ## カーネルレイヤ
 カーネルレイヤではメモリ管理まわりとファイルシステムまわりでチューニングを試しました。

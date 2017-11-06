@@ -1,0 +1,143 @@
+---
+Title: コスト効率の悪いLambdaアプリケーションの性質に関する考察
+Category:
+- Serverless
+- Architecture
+Date: 2017-11-06T09:00:00+09:00
+URL: http://blog.yuuk.io/entry/2017/lambda-disadvantages-from-a-cost-viewpoint
+EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812314866174
+---
+
+# 概要
+
+Lambdaは100msの実行時間単位でオンデマンドに課金されるため、立ち上げっぱなしのEC2インスタンスよりも、料金が安くなる可能性があることが一般に知られている。
+しかし、以下の性質を満たすアプリケーションでは、EC2インスタンス上に構築したケースと比較して、Lambda上に構築したほうがコスト効率が悪くなるのではないかと考察してみた。
+
+- Lambda functionの実行時間のうち、ネットワークI/O時間が支配的である
+- Lambda functionの実行終了を同期的に待たなければならない
+- 複数のレコードをLambda functionの引数に渡すことができない
+
+# Lambdaの基本コスト構造
+
+まず、Lambdaのコスト構造を把握する。
+Lambdaの料金表[[1]](https://aws.amazon.com/jp/lambda/pricing/)によると、「functionに対する合計リクエスト数」と「functionの合計実行時間」に応じて料金が発生する。
+
+後者の合計実行時間は、静的に割り当てたメモリ量により100ミリ秒単位の価格が異なる。
+したがって、実際にコストを試算するときは、前述の2つの料金項目に、「静的割り当てメモリ量」を加えた3つの料金項目があると考えるとよい。
+LambdaのPricing Calculator[[2]](https://s3.amazonaws.com/lambda-tools/pricing-calculator.html)もそうなっている。
+
+# LambdaとEC2の時間あたりのランニングコスト比較
+
+LambdaとEC2の時間あたりのランニングコストを比較する。
+functionの平均実行時間を料金単位と同等の100msと仮定して、1時間分つまり18000リクエストしたあたりのコストを、代表的なメモリ量別に算出すると以下のようになる。
+
+- 128MB: `$0.015/hour`
+- 832MB: `$0.056/hour`
+- 1536MB: `$0.097/hour`
+
+このうち、「functionに対する合計リクエスト数」料金については、`$0.0072`であり支配的ではない。
+
+EC2 ap-northeast-1の料金表[[3]](https://aws.amazon.com/jp/ec2/pricing/on-demand/)から、Lambdaと同じ論理2コア[[4]](https://forums.aws.amazon.com/message.jspa?messageID=614558)の代表的なインスタンスの1時間あたりのコストを以下のようになる。
+
+- t2.medium: `$0.0608/hour`
+- t2.large: `$0.1216/hour`
+- m4.large: `$0.129/hour`
+- c4.large: `$0.126/hour`
+
+LambdaのFAQ[[5]](https://aws.amazon.com/jp/lambda/faqs/)にあるように、メモリ割り当て量に対してCPU性能が比例することから、EC2インスタンスとの直接的な比較は難しいが、だいたい同程度かEC2が少々割高であることがわかる。
+
+# Lambdaに不向きなアプリケーション性質
+
+## アプリケーション例
+
+前述のように、LambdaとEC2のランニングコストにそれほど差はないことを考えると、EC2よりも細かい粒度で消費コンピューティングリソースを制御できるLambdaのほうが有利なケースは、数多くあり得る。
+
+一方で、例えば、次のようなアプリケーションをLambda functionとして実装することを考えてみる。
+画像URLを渡すと、画像をフェッチし、特定の画像変換を実行するような画像変換プロキシを考える。
+このプロキシに対して、多数のユーザがブラウザからリクエストするようなユースケースを想定する。
+レスポンスは同期的に画像を返す必要があるため、以下の図のようにAPI GatewayをLambdaの前段に挟むことになる。
+その場合、実際はさらに前段にCDNを挟むことになるだろう。
+
+```
+|-----------------------------------------------------------|
+|                                      internet             |
+| --> (CDN) --> API Gateway --> Lambda --------> image file |
+|                                                           |
+|-----------------------------------------------------------|
+```
+
+このようなアプリケーションは、以下の2点でコスト的に不利になる。
+まず、Lambda function内でインターネット経由で画像をフェッチするため、function実行時間の料金は嵩みがちになる。
+画像フェッチ処理と画像変換処理を並行実行し、実行時間を削減することも難しい。
+次に、I/O多重化により、1回のfunction実行において、同時画像フェッチ数を増やし、同じ実行時間料金での処理効率を高めることも難しい。
+なぜなら、ユースケース上、同じHTTPリクエストに複数の画像URLを含められず、functionの引数に複数の画像URLを渡せないためだ。
+
+一方、EC2インスタンス上で同じようなアプリケーションを実装すると以下の図のようになる。
+
+```
+|----------------------------------------------------------|
+|                                    internet              |
+| --> (CDN) --> ALB(or NLB) --> EC2 ----------> image file |
+|                                                          |
+|----------------------------------------------------------|
+```
+
+EC2実装では、インスタンス上でWebサーバが動作する。Lambda実装とは異なり、複数のリクエストを1つのインスタンスで並行して受け付け、I/O多重化できる。
+もちろん、1スレッドで動作するシリアルモデルなWebサーバであれば、同時に1つのリクエストしか受け付けられないが、古典的なWebサーバであっても並行モデルを採用していることがほとんどである。[5](http://blog.yuuk.io/entry/2015-webserver-architecture)
+したがって、EC2実装(Webサーバ実装)では、同じランニングコストに対して、複数の画像をフェッチできることになり、Lambda実装と比較してコスト効率がよい。
+
+## アプリケーション例のコスト試算例
+
+実際、コストがどの程度になるのかという感覚を掴むために、仮のパラメータで試算をしてみる。
+
+平均実行時間 1000ms、平均リクエスト数 1000req/sとなるケースを考える。
+一番小さいメモリ割り当て量である128MBのとき、月額は約$6000となる。
+実行時間を小さくするために、メモリ割り当て量をN倍に増やしCPU性能を大きく設定すると、画像変換処理は速くなるが、ネットワークI/O部分の時間はかわらないため、実行時間は1/Nにはならない。
+平均リクエスト数が10倍であれば、コストは10倍になり、平均リクエスト数が1/10であればコストも1/10になる。
+
+この計算例を軸に、見覚えのあるアプリケーションの負荷パラメータをあてはめて、比例計算すると、だいたいのコスト感覚をつかめると思う。
+
+## 考察
+
+以上の例から一般化し、コスト観点でLambdaに不向きなアプリケーション性質は以下のようになるという考察をしてみた。
+
+- 1: Lambda functionの実行時間のうち、ネットワークI/O時間が支配的である
+- 2: Lambda functionの実行終了を同期的に待たなければならない
+- 3: 複数のレコードをLambda functionの引数に渡すことができない
+
+3について、単にバルク処理できるエンドポイントを生やすだけで解決するのであれば、問題にならない。
+1と3について、ネットワークI/O時間が支配的であっても、1レコードの処理をI/O多重化し、実行時間を小さくできるのであれば問題にならない。
+さらに、2.と3.については、非同期でよいということであれば、Kinesis Streamsのようなキューを挟めば、Lambda function側でレコードを複数同時に処理し、I/O多重化できる。
+
+しかし、コスト的に不利な性質のアプリケーションであっても、Lambdaの採用により初期構築の手間とその後の運用の手間を大幅に削減しやすいため、実際にコストを試算してみて採用可否を判断することが望ましい。
+前述のLambda実装では、CDNのキャッシュヒット率を向上させることで解決できるなど、アーキテクチャ全体でコストを抑えれば問題ないケースもある。
+
+LambdaのようなFaaSにおいて、実時間ではなく、CPU時間で課金するモードがあればおもしろいかもしれない。
+
+今回の話は、Lambdaアーキテクチャの問題ではなく、Lambdaのコストモデルの問題といえる。
+EC2上でLambdaのようなものを自前で運用したとして、同じインスタンス上に複数のfunctionコンテナが動作する状態と、マルチプロセスモデルのWebサーバが動作している状態とでは、ランニングコストあたりの集積度という観点ではさほど変わらない。
+
+# あとがき
+
+このような性質をもつアプリケーションが現実にどれくらいあるかわからないが、実際、Lambdaでコスト試算してみると高くなったという話を社内で聞いたので、少し一般化してこのような考察をしてみた。
+これを社内wikiで共有して人気だったので、社外共有することにした。
+最近は、[http://developer.hatenastaff.com/entry/2017/10/12/184721:title:bookmark] にあるようにアーキテクチャ相談をしているため、その活動の一環ということになる。
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="ja"><p lang="ja" dir="ltr">高負荷な処理を安くするのは一般に難しいのはもちろんその通りで、今回書いたのは、EC2で普通にやってれば全然安いのにLambdaで普通にやると明らかにコスト効率が悪いという構造の話をしてみた。 (画像処理のコストの程度によるけど、仮にCPUコストはそれほどないとして)</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/927344736163192832?ref_src=twsrc%5Etfw">2017年11月6日</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="ja"><p lang="ja" dir="ltr">Lambdaで定常的にCPUバウンドなことさせると、EC2に比べて高いのではと思ってたのだけど、1時間あたりの料金だとむしろLambdaのほうが安いぐらいか(本当に? バージニアだとほぼおなじくらい</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/927345992751489024?ref_src=twsrc%5Etfw">2017年11月6日</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="ja"><p lang="ja" dir="ltr">Webサーバで代行できるということは、サーバレスとしてはよいけどFaaSとしてはイマイチ。Lambdaは、DynamoDBとかS3のようなデータレコードに対するイベントごとに処理をフックできるところが一番かっこいい。</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/927346634911969280?ref_src=twsrc%5Etfw">2017年11月6日</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+# 参考文献
+
+- [1]: [https://aws.amazon.com/jp/lambda/pricing/:title]
+- [2]: [https://s3.amazonaws.com/lambda-tools/pricing-calculator.html:title]
+- [3]: [https://aws.amazon.com/jp/ec2/pricing/on-demand/:title]
+- [4]: [https://forums.aws.amazon.com/message.jspa?messageID=614558:title]
+- [5]: [https://aws.amazon.com/jp/lambda/faqs/:title]
+- [6]: [http://blog.yuuk.io/entry/2015-webserver-architecture:title]
+
