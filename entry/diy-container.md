@@ -1,5 +1,5 @@
 ---
-Title: "自作Linuxコンテナの時代"
+Title: 自作Linuxコンテナの時代
 Category:
 - Linux
 - Docker
@@ -18,10 +18,7 @@ EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/665381
 
 # 概要
 
-- Dockerも含めて、Linuxコンテナはコンテナを構成する複数の要素技術の組み合わせである。
-- 自分のやりたいことに対して、Dockerをはじめ既存のコンテナエンジンが複雑すぎるケースがある。そこで、自分の用途にあわせてコンテナエンジンを自作することを考えてみる。
-- [libcontainer](https://github.com/opencontainers/runc/tree/master/libcontainer)に代表されるように、Linuxコンテナエンジンを自作しやすい環境が整いつつある。
-- 今後は、巨大なコンテナエンジンに対して、UNIX哲学に基づいて制御可能な小さなコンテナエンジンを自作する道もあるのではないか。
+Dockerも含めて、Linuxコンテナはコンテナを構成する複数の要素技術の組み合わせである。自分のやりたいことに対して、Dockerをはじめ既存のコンテナエンジンが複雑すぎるケースがある。そこで、自分の用途にあわせてコンテナエンジンを自作することを考えてみる。[libcontainer](https://github.com/opencontainers/runc/tree/master/libcontainer)に代表されるように、Linuxコンテナエンジンを自作しやすい環境が整いつつある。今後は、巨大なコンテナエンジンに対して、UNIX哲学に基づいて制御可能な小さなコンテナエンジンを自作する道もあるのではないか。
 
 # 自作Linuxコンテナ
 
