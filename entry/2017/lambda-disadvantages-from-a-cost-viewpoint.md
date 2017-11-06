@@ -1,5 +1,5 @@
 ---
-Title: AWS Lambdaがコスト観点で不利になりやすいアプリケーション性質の考察
+Title: コスト効率の悪いLambdaアプリケーションの性質に関する考察
 Category:
 - Serverless
 - Architecture
@@ -12,7 +12,7 @@ CustomPath: 2017/lambda-disadvantages-from-a-cost-viewpoint
 # 概要
 
 Lambdaは100msの実行時間単位でオンデマンドに課金されるため、立ち上げっぱなしのEC2インスタンスよりも、料金が安くなる可能性があることが一般に知られている。
-しかし、以下の性質を満たすアプリケーションでは、Lambdaがコスト観点でEC2インスタンスに対して不利になりやすいと考察してみた。
+しかし、以下の性質を満たすアプリケーションでは、EC2インスタンス上に構築したケースと比較して、Lambda上に構築したほうがコスト効率が悪くなるのではないかと考察してみた。
 
 - Lambda functionの実行時間のうち、ネットワークI/O時間が支配的である
 - Lambda functionの実行終了を同期的に待たなければならない
