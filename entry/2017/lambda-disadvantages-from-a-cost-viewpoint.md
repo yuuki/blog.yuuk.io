@@ -6,7 +6,6 @@ Category:
 Date: 2017-11-06T09:00:00+09:00
 URL: http://blog.yuuk.io/entry/2017/lambda-disadvantages-from-a-cost-viewpoint
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812314866174
-CustomPath: 2017/lambda-disadvantages-from-a-cost-viewpoint
 ---
 
 # 概要
@@ -124,6 +123,14 @@ EC2上でLambdaのようなものを自前で運用したとして、同じイ�
 これを社内wikiで共有して人気だったので、社外共有することにした。
 最近は、[http://developer.hatenastaff.com/entry/2017/10/12/184721:title:bookmark] にあるようにアーキテクチャ相談をしているため、その活動の一環ということになる。
 
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="ja"><p lang="ja" dir="ltr">高負荷な処理を安くするのは一般に難しいのはもちろんその通りで、今回書いたのは、EC2で普通にやってれば全然安いのにLambdaで普通にやると明らかにコスト効率が悪いという構造の話をしてみた。 (画像処理のコストの程度によるけど、仮にCPUコストはそれほどないとして)</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/927344736163192832?ref_src=twsrc%5Etfw">2017年11月6日</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="ja"><p lang="ja" dir="ltr">Lambdaで定常的にCPUバウンドなことさせると、EC2に比べて高いのではと思ってたのだけど、1時間あたりの料金だとむしろLambdaのほうが安いぐらいか(本当に? バージニアだとほぼおなじくらい</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/927345992751489024?ref_src=twsrc%5Etfw">2017年11月6日</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="ja"><p lang="ja" dir="ltr">Webサーバで代行できるということは、サーバレスとしてはよいけどFaaSとしてはイマイチ。Lambdaは、DynamoDBとかS3のようなデータレコードに対するイベントごとに処理をフックできるところが一番かっこいい。</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/927346634911969280?ref_src=twsrc%5Etfw">2017年11月6日</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 # 参考文献
 
