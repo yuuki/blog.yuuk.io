@@ -6,7 +6,6 @@ Category:
 Date: 2017-11-06T09:00:00+09:00
 URL: http://blog.yuuk.io/entry/2017/lambda-disadvantages-from-a-cost-viewpoint
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812314866174
-Draft: true
 CustomPath: 2017/lambda-disadvantages-from-a-cost-viewpoint
 ---
 
