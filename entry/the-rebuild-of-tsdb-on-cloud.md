@@ -195,3 +195,10 @@ Mackerelでは、時系列データベース以外にも、おもしろいソフ
 
 また、今年のはてなインターンでは、Mackerelやはてなのインフラストラクチャを支えるシステムを開発できる、「大規模システムコース」と「クラウドサーバ管理システムコース」があります。
 [http://developer.hatenastaff.com/intern2017:title:embed]
+
+## 追記
+
+2017/11/03の[Serverlessconf Tokyo 2017](tokyo.serverlessconf.io)にて、リリース後の監視・運用の話を紹介しています。
+<div style="width: 70%">
+<script async class="speakerdeck-embed" data-id="c1e5e041140945188ca5b0de4ee32f34" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+</div>
