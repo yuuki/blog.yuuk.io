@@ -1,19 +1,23 @@
 ---
-Title: Mackerelの源流 ~ はてなのサーバ「管理」ツールの過去の話
+Title: サーバ「管理」ツールとしてのMackerelの起源
 Category:
 - Monitoring
 - Mackerel
-Date: 2017-11-9T18:00:00+09:00
+Date: 2017-11-08T19:30:00+09:00
+URL: http://blog.yuuk.io/entry/2017/the-origin-of-mackerel
+EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812315761900
 Draft: true
-CustomPath: 2017/the-origin-of-mackerel
 ---
 
-この記事は、SaaSのサーバ監視サービス[Mackerel](https://mackerel.io)を源流を遡り、そこから現在の姿に至った経緯をはてな社内のエンジニアに共有するためのものです。
+この記事は、SaaSのサーバ監視サービス[Mackerel](https://mackerel.io)を起源を遡り、そこから現在の姿に至った経緯をはてな社内のエンジニアに共有するためのものです。
 なお、ここに書かれていることは、Mackerel開発チームの公式見解ではありません。
 
 # 概要
 
-Mackerelの源流は、サーバ「監視」というよりはむしろサーバ「管理」にありました。
+Mackerelは、もともとは2007年ごろに開発されたはてなの社内のサーバ管理ツールであり、動的なインフラストラクチャに対応するために、現在でいうところのInfrastructure As Codeを目指したものです。
+そこから2013年にSaaSのサービスとして開発され、コードベースとアーキテクチャは全く新しくなり、監視機能を備え、サーバ「監視」サービスと呼ばれるようになりました。
+しかし、はてな社内では、プログラマブルなAPIを備えたサーバ「管理」サービスとして、Mackerelを中心にしたインフラストラクチャを構築しています。
+Mackerelの起源は、サーバ「監視」というよりはむしろサーバ「管理」にあったということをここに残します。
 
 # 社内Mackerelの誕生
 
@@ -69,7 +73,9 @@ Mackerelの源流は、サーバ「監視」というよりはむしろサーバ
 今から振り返ると、メトリックの収集、保存、可視化については、Repiarableにするために、専用のツールに任せ、ビューだけ統合したほうが良かったと考えています。
 社内Mackerelの開発開始が2007年より、もう少し後であれば、Collectd[[6]](http://collectd.org/)で収集し、Graphite[[7]](https://graphiteapp.org/)に保存するといった選択肢もありました。
 
-# Mackerelへ
+メトリックに限らず、当時Nagiosには使いやすいAPIがなく強引な手段で統合している実装をみると、Infrastructure As Codeを志向しようには世の中が追いついていなかった様が伺えます。
+
+# SaaSとしてのMackerelへ
 
 2013年にMackerelの開発が始まり、2014年に正式リリースされました。
 SaaSとして提供するにあたって、グラフツールではないため、メトリックに着目するより、「ホスト」に着目するといった主要な思想は、社内Mackerelから引き継がれました。他にも以下の要素が引き継がれました。
@@ -90,7 +96,7 @@ SaaSとして提供するにあたって、グラフツールではないため�
 メトリックの収集と時系列グラフについては、SaaSとして提供するために、NAT超えを意識し、Pull型ではなく、Push型のアーキテクチャになっています。
 ホストにインストールされたmackerel-agentのリクエストを[[8]](http://blog.yuuk.io/entry/high-performance-graphite)[[9]](http://blog.yuuk.io/entry/the-rebuild-of-tsdb-on-cloud)に書いた時系列データベースに格納します。
 
-このように、Mackerelは監視機能をひと通り備えているため、サーバ「監視」サービスと銘打っていますが、その源流は、サーバ「管理」サービスです。
+このように、Mackerelは監視機能をひと通り備えているため、サーバ「監視」サービスと銘打っていますが、その起源は、サーバ「管理」サービスです。
 実際、サーバ「管理」ツールとしてのMackerelをうまく活用していただいている例[[10]](https://github.com/myfinder/mackerel-meetup-3/blob/master/slide.md)があります。
 このブログでも、AnsibleのDynamic Inventoryとの連携[[11]](http://blog.yuuk.io/entry/ansible-mackerel-1000)やServerspecとの連携[[12]](http://blog.yuuk.io/entry/mackerel-serverspec)など、サーバ「管理」ツールとしてのMackerelをいくつか紹介しています。
 
@@ -155,6 +161,7 @@ Mackerelのサーバ監視以外の「管理」の側面は、まだ十分に伝
 これは本書で知ったのですが、どうやら はてな社は Mackerel をホスト管理としても使っている様で、数千いるサーバのロールをうまくラベリングして運用されているとの事でした。
 
 と書いていただいています。
+
 
 [^1]: mackerel2という社内Mackerelの改良版では、タグという概念で、複数のロールをさらに集約し、同じ設定で監視できるようになっています。これは、ロールはMySQL
 [^2]: 例えば、サービスごとにネットワークレンジが決まっているなど。
