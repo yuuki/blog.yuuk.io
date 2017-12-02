@@ -10,7 +10,7 @@ EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/859997
 Draft: true
 ---
 
-[はてなエンジニア Advent Calendar 2017](https://qiita.com/advent-calendar/2017/hatena)の2日目です。
+[はてなエンジニア Advent Calendar 2017](https://qiita.com/advent-calendar/2017/hatena)の2日目です。昨日は、id:syou6162:detail さんによる[http://www.yasuhisay.info/entry/saba_disambiguator:title:bookmark]でした。
 
 この記事は、[人工知能学会 合同研究会2017 第3回ウェブサイエンス研究会](http://sigwebsci.tumblr.com/post/166061452488/%E7%AC%AC3%E5%9B%9E%E3%82%A6%E3%82%A7%E3%83%96%E3%82%B5%E3%82%A4%E3%82%A8%E3%83%B3%E3%82%B9%E7%A0%94%E7%A9%B6%E4%BC%9A%E3%81%94%E6%A1%88%E5%86%85)の招待講演の内容を加筆修正したものです。
 講演のテーマは、「自然現象としてのウェブ」ということでそれに合わせて、「自然のごとく複雑化したウェブシステムの運用自律化に向けて」というタイトルで講演しました。
