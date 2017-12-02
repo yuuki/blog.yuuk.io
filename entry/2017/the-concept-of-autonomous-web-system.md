@@ -6,8 +6,11 @@ Category:
 - Experimentable
 Date: 2017-12-02T23:55:00+09:00
 URL: http://blog.yuuk.io/entry/2017/the-concept-of-autonomous-web-system
+EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812323144142
 Draft: true
 ---
+
+[はてなエンジニア Advent Calendar 2017](https://qiita.com/advent-calendar/2017/hatena)の2日目です。
 
 この記事は、[人工知能学会 合同研究会2017 第3回ウェブサイエンス研究会](http://sigwebsci.tumblr.com/post/166061452488/%E7%AC%AC3%E5%9B%9E%E3%82%A6%E3%82%A7%E3%83%96%E3%82%B5%E3%82%A4%E3%82%A8%E3%83%B3%E3%82%B9%E7%A0%94%E7%A9%B6%E4%BC%9A%E3%81%94%E6%A1%88%E5%86%85)の招待講演の内容を加筆修正したものです。
 講演のテーマは、「自然現象としてのウェブ」ということでそれに合わせて、「自然のごとく複雑化したウェブシステムの運用自律化に向けて」というタイトルで講演しました。
@@ -375,7 +378,7 @@ Chaos Engineering自体は、先に述べたように制御モデルのパラメ
 <!-- - SREの組織コミュニケーションのコスト変化 -->
 <!-- - 重要なのははてなでは、観測器であるMackerelがあること -->
 
-# 7. まとめ
+# 6. まとめ
 
 ウェブシステムの運用は、ここ10年で自動化が進んでおり、物理的な世界からソフトウェアの世界になってきました。
 ウェブシステムは複雑ではあるが、現代のところコンピュータだけで自律した系ではありません。
@@ -440,7 +443,7 @@ Real Worldでは、一歩前に進むだけでも本当に様々な問題が起�
 しかし、SREの分野では、研究者のコミュニティが他と比べて未発達なようにも思います。
 近い分野である情報ネットワークに関しては、日本でも様々な研究会がありますが、僕の知る限りでは、日本では直接的にSREの分野を扱う研究会は存在しないようです。((海外ではUSENIXのLISAやSREconなどがあります))
 
-そこで、[ウェブシステムアーキテクチャ研究会](http://websystemarchitecture.hatenablog.jp/entry/2017/11/16/182041)、(https://twitter.com/search?f=tweets&vertical=default&q=%23wsa%E7%A0%94&src=typd)というものを立ち上げようとしています。
+そこで、[ウェブシステムアーキテクチャ研究会](http://websystemarchitecture.hatenablog.jp/entry/2017/11/16/182041)、([#wsa研](https://twitter.com/search?f=tweets&vertical=default&q=%23wsa%E7%A0%94&src=typd))というものを立ち上げようとしています。
 第1回は京都開催にもかかわらず、全員発表型で10人以上の参加者が既に集まっています。
 今回の講演の準備をするにあたって、我々の分野で未来を議論するための既存の枠組みや土台があまりないことを改めて実感しました。((SRE本は本当に稀有な存在))
 WSA研では、未来を考えるために、現状を体系化し、そこから新規性や有用性を追求していこうと思います。
