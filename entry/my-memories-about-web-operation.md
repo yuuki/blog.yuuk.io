@@ -37,4 +37,4 @@ EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/103287
 
 同僚にはこういう変な人もいる。
 
-<script async class="speakerdeck-embed" data-id="8af6403a5a7d4b05939fe4e29468e180" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+[https://speakerdeck.com/masayoshi/hatenafalseinhurahuan-jing-wozi-zhai-dezai-xian-suru:embed]
