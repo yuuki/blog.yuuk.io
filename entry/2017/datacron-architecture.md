@@ -3,7 +3,7 @@ Title: DataCronアーキテクチャ構想: TTLトリガーによるスケーラ
 Category:
 - Architecture
 Draft: true
-CustomPath: 2017/scalable-time-trigger-architecture
+CustomPath: 2017/datacron-architecture
 ---
 
 この記事は[第1回ウェブシステムアーキテクチャ(WSA)研究会](http://websystemarchitecture.hatenablog.jp/)の原稿です。
