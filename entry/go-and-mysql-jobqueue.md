@@ -1,5 +1,5 @@
 ---
-Title: "GoとMySQLを用いたジョブキューシステムを作るときに考えたこと"
+Title: GoとMySQLを用いたジョブキューシステムを作るときに考えたこと
 Category:
 - Go
 - MySQL
@@ -9,6 +9,12 @@ Date: 2014-12-04T23:36:39+09:00
 URL: http://blog.yuuk.io/entry/go-and-mysql-jobqueue
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450076145676
 ---
+
+【追記】2017年12年24日
+このエントリのジョブキュー実装がFireworqという名でOSSとして公開されました。
+
+[https://github.com/fireworq/fireworq:embed:cite]
+ 
 
 この記事は[はてなエンジニアアドベントカレンダー2014](http://developer.hatenastaff.com/entry/2014/12/01/164046)の4日目です。
 前回は [http://developer.hatenastaff.com/entry/mackerel-overview:title:bookmark] でした。
