@@ -2,11 +2,12 @@
 Title: TimeFuzeアーキテクチャ構想 - 処理とデータとタイマーを一体化したデータパイプライン
 Category:
 - Architecture
-Date: 2017-12-20T23:30:44+09:00
+- DataPipeline
+- Redis
+- Database
+Date: 2017-12-25T16:53:00+09:00
 URL: http://blog.yuuk.io/entry/2017/timefuze-architecture
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812328408485
-Draft: true
-CustomPath: 2017/timefuze-architecture
 ---
 
 この記事は[第1回ウェブシステムアーキテクチャ(WSA)研究会](http://websystemarchitecture.hatenablog.jp/entry/2017/12/17/133301)の予稿です。
@@ -27,6 +28,7 @@ Webサービスにおいて、リクエストに対してHTMLのレスポンス�
 > 「SRE サイトリライアビリティエンジニアリング ――Googleの信頼性を支えるエンジニアリングチーム」
 
 f:id:y_uuki:20171225150127p:image
+
 データパイプライン処理を実現する一般的な方式は、特定サーバ上のcronなどのタイムスケジューラーにより、バッチ処理を実行させる方式である。
 
 一般のデータパイプラインの欠点として、25.3節「定期的なパイプラインパターンでの課題」にて、期限内に実行が終わらないジョブ、リソースの枯渇、処理の進まないチャンクとそれに伴う運用負荷が挙げられている。
