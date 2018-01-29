@@ -4,11 +4,9 @@ Category:
 - Operation
 - Ansible
 - Docker
-Date: 2018-01-28T23:47:43+09:00
+Date: 2018-01-29T09:40:43+09:00
 URL: http://blog.yuuk.io/entry/2018/all-servers-operations-environment
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812341703119
-Draft: true
-CustomPath: 2018/all-servers-operations-environment
 ---
 
 1000台同時SSHオペレーション環境を構築するにあたって、手元のローカル環境の性能限界の問題を解決するために、オペレーションサーバをSSHクライアントとすることによりSSH実行を高速化した。実行環境としてDocker、レジストリとしてAmazon ECR(EC2 Container Registry)を用いて、ローカル環境とオペレーションサーバ環境を統一することにより、オペレーションサーバの構成管理の手間を削減した。
@@ -38,7 +36,7 @@ CustomPath: 2018/all-servers-operations-environment
 [f:id:y_uuki:20180128215001p:image:title="図１: アーキテクチャ"]
 図１: アーキテクチャ
 
-単一ホストから命令を各サーバへ送信するPull型のイベント送信モデルである。
+単一サーバから命令を各サーバへ送信するPull型のイベント送信モデルになる。
 ローカル -> オペレーションサーバ -> 対象ホストの流れに沿ってSSHログインする。
 オペレーションサーバ上では、並列SSHツール(Ansible)が起動し、記述したplaybookにしたがい、オペレーションを実行する。
 対象ホスト一覧は、ホストインベントリ(Mackerel)のAPIから取得し、フィルタ([Ansibleのfilter](http://docs.ansible.com/ansible/latest/playbooks_filters.html))により、除外パターンを記述できる。
