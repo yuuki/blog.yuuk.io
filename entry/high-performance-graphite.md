@@ -13,7 +13,9 @@ URL: http://blog.yuuk.io/entry/high-performance-graphite
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450093057979
 ---
 
-サーバモニタリングサービス [Mackerel](https://mackerel.io) で採用している時系列データベース [Graphite](http://graphite.readthedocs.org/en/latest/) を用いたシステムの構築と運用事情を紹介します。Graphiteについては、プロビジョニングやアプリケーションからの使い方、Graphite自体のモニタリングなど様々なトピックがありますが、特に大規模ならではのトピックとして、Graphiteの内部アーキテクチャ、パフォーマンスチューニングおよびクラスタ構成についての知見を書こうと思います。
+【追記 2018/01/06】現在Mackerelは、[http://blog.yuuk.io/entry/the-rebuild-of-tsdb-on-cloud:title:bookmark]の時系列データベース実装へ移行しています。
+
+サーバモニタリングサービス [Mackerel](https://mackerel.io) で採用している時系列データベース [Graphite](http://graphite.readthedocs.org/en/latest/) を用いたシステムの構築と運用事情を紹介します。Graphiteについては、プロビジョニングやアプリケーションからの使い方、Graphite自体のモニタリングなど様々なトピックがありますが、特に大規模ならではのトピックとして、Graphiteの内部アーキテクチャ、パフォーマンスチューニングおよびクラスタ構成についての知見を書きます。
 
 <!-- more -->
 [:contents]
