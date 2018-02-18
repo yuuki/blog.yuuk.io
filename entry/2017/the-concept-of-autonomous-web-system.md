@@ -7,7 +7,6 @@ Category:
 Date: 2017-12-02T23:55:00+09:00
 URL: http://blog.yuuk.io/entry/2017/the-concept-of-autonomous-web-system
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812323144142
-CustomPath: 2017/the-concept-of-autonomous-web-system
 ---
 
 [はてなエンジニア Advent Calendar 2017](https://qiita.com/advent-calendar/2017/hatena)の2日目です。
@@ -18,6 +17,9 @@ CustomPath: 2017/the-concept-of-autonomous-web-system
 一応、他の情報科学の分野の研究者や技術者に向けて書いているつもりですが、その意図がうまく反映されているかはわかりません。
 
 [:contents]
+
+
+※ 2018/01/29追記: 本文中で費用を最小にすることが目的としていますが、最近では、費用も制約条件であり、変更速度を最大にする最適化問題というほうがしっくりくるようになりました。変更速度がどんどん大きくなり、そもそも人が変更するのではなく計算機が変更しはじめるのが、Experimentable Infrastructureです。これを突き詰めていくと、人間の発想をすぐ計算機に反映できる状態になります。その結果、人間の発想そのものが何か変化するではないかということが最近の興味です。)
 
 # 概要
 

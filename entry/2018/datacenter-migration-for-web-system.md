@@ -7,7 +7,6 @@ Date: 2018-02-19T09:20:00+09:00
 URL: http://blog.yuuk.io/entry/2018/datacenter-migration-for-web-system
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812302592884
 Draft: true
-CustomPath: 2018/datacenter-migration-for-web-system
 ---
 
 クラウドへの移行を含むデータセンター(以下DC)移行事例を基に、WebサービスをDC移行するための基本的な技術要素を紹介します。
