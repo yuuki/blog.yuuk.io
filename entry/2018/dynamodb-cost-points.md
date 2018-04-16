@@ -1,5 +1,5 @@
 ---
-Title: DynamoDBのインフラコスト感覚
+Title: DynamoDBのインフラコスト構造と削減策
 Category:
 - Database
 - DynamoDB
@@ -58,7 +58,7 @@ S3のように月のAPIコール数の合計により課金されるわけでは
 
 DynamoDBは、同時に複数のアイテムを操作するAPI(BatchGetItem、BatchWriteItem)があり、これらを用いてアプリケーションの性能を改善することができる。
 しかし、基本的には、キャパシティユニットの消費を抑えられるわけではないため、これらのAPIを用いてコストが下がるわけではない。
-ただし、Queryについては、単一の読み取りオペレーションとして扱われる。これについては最近まで見落としていた。
+ただし、Queryについては、単一の読み取りオペレーションとして扱われる((内部的にはソートキーでソートされたSSTableのような構造になっていて、Queryは、OSのファイルシステム上で連続領域に対するreadになり、1回か少ないI/Oで読み出せるためではないかと推測している))。これについては最近まで見落としていた。
 キャパシティーユニットの消費の詳細については、 <https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/CapacityUnitCalculations.html> に書かれている。
 
 ### フィルタ式
