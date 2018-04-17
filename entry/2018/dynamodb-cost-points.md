@@ -117,6 +117,14 @@ DAXはDynamoDBのwrite throughキャッシュとして動作し、DynamoDBのス
 DAXの動作モデルについては、<https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/DAX.consistency.html>が詳しい。
 DAXは自分で使ったことがないので、DAXそのもののコストについては理解が浅いが、インスタンスタイプベースのコストモデルになっている。
 
+## TTL
+
+DynamoDBではアイテムの削除もwriteとして扱われる。
+時間経過による自動削除を許すケースであれば、[TTL](https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/TTL.html)により、writeコストを削減できる。
+TTLによる削除であれば、キャパシティユニットを消費しない。
+TTLはアイテムごとに設定できるため、RedisやMemcachedと同じような感覚で扱える。
+ただし、おそらく内部的にはコンパクションのタイミングで削除されるため、設定したTTLの時刻になった瞬間に削除されるわけではないことに注意する。
+
 ## テーブルデータ構造
 
 前述したようにDynamoDBは、writeが支配的なワークロードで、コストが大きくなりやすい。
