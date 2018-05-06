@@ -205,7 +205,7 @@ read path  <--|<-- ALB <-- reader(golang) <-------|                      |    |
               +---------------------------------------------------------------+
 ```
 
-実装の詳細については、AWS Summit Tokyo 2017のプレゼンテーション[^2]にて紹介している。
+実装の詳細については、AWS Summit Tokyo 2017のプレゼンテーション[^2],[^25],[^26]にて紹介している。
 
 ## KVS間のデータ移動
 
@@ -371,3 +371,5 @@ Diamondアーキテクチャは、複数のデータべースの上にデータ�
 [^22]: Giuseppe DeCandia, Deniz Hastorun, Madan Jampani, et al., "Dynamo: Amazon’s Highly Available Key-Value Store", at 21st ACM Symposium on Operating Systems Principles (SOSP), October 2007.
 [^23]: C. Mohan and Frank Levine, "ARIES/IM: An Efficient and High Concurrency Index Management Method Using Write-Ahead Logging", at ACM International Conference on Management of Data (SIGMOD), June 1992.
 [^24]: Fabian Reinartz, "Writing a Time Series Database from Scratch", https://fabxc.org/, April 20 2017.
+[^25]: [https://speakerdeck.com/itchyny/serverlessconf-tokyo-2017:title:bookmark]
+[^26]: [https://speakerdeck.com/astj/mackerel-meetup-number-11-tokyo:title:bookmark]
