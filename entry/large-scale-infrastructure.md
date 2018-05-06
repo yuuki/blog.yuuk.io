@@ -342,6 +342,7 @@ Mackerelはまだ新しいサービスで歴史的事情が少ないシステム
 
 - [http://d.hatena.ne.jp/naoya/20140826/1409024573:title:bookmark]
 - [http://blog.hifumi.info/2015/07/20/pepabo-web-operation-training-2015/:title:bookmark]
+- [https://www.slideshare.net/drecom/ss-11667563:title:bookmark]
 
 # まとめ
 はてなの大規模なインフラにおけるアプリケーションの様子とサーバ構成の基本を紹介しました。

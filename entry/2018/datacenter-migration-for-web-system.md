@@ -3,13 +3,12 @@ Title: Webサービスをデータセンター移行するときに必要とな�
 Category:
 - Infrastructure
 - Migration
-Date: 2018-02-19T09:20:00+09:00
+Date: 2018-02-19T13:39:00+09:00
 URL: http://blog.yuuk.io/entry/2018/datacenter-migration-for-web-system
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812302592884
-Draft: true
 ---
 
-クラウドへの移行を含むデータセンター(以下DC)移行事例を基に、WebサービスをDC移行するための基本的な技術要素を紹介します。
+クラウドへの移行を含むデータセンター(以下DC)移行事例を基に、WebサービスをDC移行するための基本的な技術要素を紹介します。具体的には移行手順、データベースのデータ移行、ネットワーク、DNSなどです。
 最近、社内で大規模なDC移行を実施しつつあり、DC移行とはなにかをメンバーへ共有するための文章でもあります。
 ちなみに、この記事は[Hosting Casual Talks #4](https://connpass.com/event/62208/)の発表内容を書き下ろしたものです。
 
@@ -254,6 +253,8 @@ https://docs.oracle.com/javase/8/docs/technotes/guides/net/properties.html
 [http://moznion.hatenadiary.com/entry/2016/03/11/121343:title:bookmark]
 
 この問題について、IPアドレスを変更する前提では、技術的解決する手段はあまりなく、移行期間を設けて、強制的に旧環境を破棄するしかないのが実情です。とはいえ、経験上数日待てばほとんどの接続は新環境に向いてくれました。
+
+追記: [http://astj.hatenablog.com/entry/2018/03/06/130930:title:bookmark]
 
 ## 内部エンドポイントの変更
 

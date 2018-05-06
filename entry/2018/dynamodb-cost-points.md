@@ -6,7 +6,6 @@ Category:
 Date: 2018-04-16T23:56:19+09:00
 URL: http://blog.yuuk.io/entry/2018/dynamodb-cost-points
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/17391345971635750655
-CustomPath: 2018/dynamodb-cost-points
 ---
 
 [Amazon DynamoDB](https://aws.amazon.com/jp/dynamodb/)は、RDSのようなインスタンスサイズによる課金モデルではなく、ストレージのデータ使用量とスループットを基にした課金モデルになっている。
@@ -14,14 +13,14 @@ CustomPath: 2018/dynamodb-cost-points
 これらは、AWSの中でも、フルマネージドサービスと呼ばれる位置づけとなるサービスだ。
 フルマネージドサービスは、ElastiCacheのようなそうでないものと比較し、AWSに最適化されていて、サービスとしてよくできていると感じている。
 
-Mackerelの時系列データベースのスタックの一つとして、DynamoDBを採用している。[http://blog.yuuk.io/entry/the-rebuild-of-tsdb-on-cloud:title:bookmark]
-時系列データベースの開発は、コストとの戦いだったために、それなりにコスト知見が蓄積してきた。
+Mackerelの時系列データベースのスタックの一つとして、DynamoDBを採用している。
+時系列データベースの開発は、コストとの戦いだったために、それなりにコスト知見が蓄積してきた。([http://blog.yuuk.io/entry/the-rebuild-of-tsdb-on-cloud:title:bookmark])
 
 (※ 以下は、2018年4月16日時点での情報を基にしている。)
 
 # DynamoDBのコスト構造
 
-冒頭に書いたように、「ストレージのデータ使用量」と「スループット」を基にするため、インスタンスサイズモデルと比較して、よりアプリケーションコードがダイレクトに反映されるコスト構造になっている。
+冒頭に書いたように、「ストレージのデータ使用量」と「スループット」を基にするため、インスタンスサイズモデルと比較して、よりアプリケーションロジックがダイレクトに反映されるコスト構造になっている。
 
 正確なコスト定義は、[公式ドキュメント](https://aws.amazon.com/jp/dynamodb/pricing/)を参照してほしいが、これを初見で理解するのはなかなか難しい。データ使用量のコストモデルはGB単価なため把握しやすい。しかし、スループットに関するキャパシティユニットの概念が難しい。
 以下では、各要素について、メンタルモデルを説明する。
@@ -29,7 +28,7 @@ Mackerelの時系列データベースのスタックの一つとして、Dynamo
 
 ## ストレージのデータ使用量
 
-ストレージのGB単価は、$0.25/GBであり、S3のStandardストレージクラスと比較して、およそ10倍程度となる。
+ストレージのGB単価は、$0.25/GB/月であり、S3のStandardストレージクラスと比較して、およそ10倍程度となる。
 こう聞くと割高に聞こえるが、画像やブログのテキストデータなどを格納しなければ((そもそも、DynamoDBはアイテムサイズが現在のところ400KBまでという制限がある <https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/Limits.html#limits-items>))、それほど高いというわけではない。
 実際、1TBのデータ使用に対して、$300/月程度のコストとなる。
 
@@ -44,8 +43,8 @@ S3のように月のAPIコール数の合計により課金されるわけでは
 
 スループットによるコストは、大雑把には以下の特性をもつ。
 
-- 「秒間read数または秒間write数」に比例してコストが大きくなる
-- アイテムサイズを1KBに固定したときの「秒間write数」の単価は「秒間read数」の約5~6倍程度となる。読み取り整合性を[結果整合性のある読み込み](https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html)にすると、秒間read数のコストは1/2となる
+- 「秒間read数」または「秒間write数」に比例してコストが大きくなる
+- アイテムサイズを1KBに固定したときの「秒間write数」の単価は「秒間read数」の約5~6倍程度となる。読み取り整合性を[結果整合性のある読み込み](https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html)にすると、「秒間read数」のコストは1/2となる
 - readまたはwriteしたアイテムのサイズに比例してコストが大きくなる
 - 「アイテムサイズ」のコスト単位はreadとwriteで異なる。readは4KB単位で比例し、writeは1KB単位で比例する。
 - [グローバルセカンダリインデックス](https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/GSI.html)および[ローカルセカンダリインデックス](https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/LSI.html)を利用する場合、writeする度に、内部的にインデックスの更新作業が走るため、writeコストが大きくなる。((プライマリキー単体と比較して、プライマリキー+ソートキーの複合キーの作成により、追加のwriteコストが発生することはないと認識しているが、ドキュメントを見つけられなかった。))

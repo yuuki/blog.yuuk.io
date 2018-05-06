@@ -33,9 +33,9 @@ Mackerelにおけるメトリックの収集とグラフ化の仕組みの概要
 
 [f:id:y_uuki:20170604121505p:image:w600]
 
-時系列データベースとはそもそも何でしょうか。時系列データベースとは、時系列データを扱うことに特化したデータベースであり、サーバモニタリングやIoTの文脈でのセンサーデータの収集のために使われます。有名な実装として、[OpenTSDB](http://opentsdb.net/)、[InfluxDB](https://github.com/influxdata/influxdb)、[Graphite](http://graphite.readthedocs.io/) などがあります。地味にみえて、多くの実装が存在し、学術研究論文になっているものもあります。id:rrreeeyyy:detail さんの [http://techlife.cookpad.com/entry/timeseries-database-001:title:bookmark] [3]が詳しいので、一読することを薦めます。
+時系列データベースとはそもそも何でしょうか。時系列データベースとは、時系列データを扱うことに特化したデータベースであり、サーバモニタリングやIoTの文脈でのセンサーデータの収集のために使われます。有名な実装として、[OpenTSDB](http://opentsdb.net/)、[InfluxDB](https://github.com/influxdata/influxdb)、[Graphite](http://graphite.readthedocs.io/) などがあります。地味にみえて、多くの実装が存在し、学術研究論文になっているものもあります。id:rrreeeyyy:detail さんの [http://techlife.cookpad.com/entry/timeseries-database-001:title:bookmark] [^3]が詳しいので、一読することを薦めます。
 
-Mackerelで運用している時系列データベースについては、[http://blog.yuuk.io/entry/high-performance-graphite:title:bookmark] [4]の記事にまとめています。2年前の記事ですが、現状でも概ねこの通りの構成で運用しています。1台あたりピーク時で150k write IOPSを叩き出しており、[https://speakerdeck.com/yuukit/the-study-of-time-series-database-for-server-monitoring:title:bookmark] [5]で紹介したようにパッチをあててパフォーマンスを改善してきました。
+Mackerelで運用している時系列データベースについては、[http://blog.yuuk.io/entry/high-performance-graphite:title:bookmark] [^4]の記事にまとめています。2年前の記事ですが、現状でも概ねこの通りの構成で運用しています。1台あたりピーク時で150k write IOPSを叩き出しており、[https://speakerdeck.com/yuukit/the-study-of-time-series-database-for-server-monitoring:title:bookmark] [^5]で紹介したようにパッチをあててパフォーマンスを改善してきました。
 
 ところが、MackerelのGraphite運用には、以下の4つの問題を抱えています。
 
@@ -44,7 +44,7 @@ Mackerelで運用している時系列データベースについては、[http:
 次の問題は、データ保持期間を増やすと金銭的なコストが激増するというものです。前述したようにスケールアウトのための運用コストが大きいことから、書き込みI/Oをスケールアップするために、NANDフラッシュメモリを利用しています。非常に性能が高い一方で高価なハードウェアなので、容量単価が大きいという特徴があります。
 したがって、データ保持期間を増やすと、ディスク上のデータ量が増加し、安価なハードウェアにのせることに比べてお金がかかることになります。
 一般の解決策は、圧縮してディスクに格納するか、既に書き込まれたデータを低速で容量単価の小さいストレージに移動するような仕組みにすることです。
-前者の圧縮については、[3]で紹介されている差分符号化やXOR符号化のテクニックをGraphiteに実装すれば、実現できそうではあります。しかし、これらのエンコーディングにより、ランダムアクセスできなくなるため、Graphiteのラウンドロビンデータベース構造とうまく噛み合うかがわからないところです。圧縮は基本的に、CPU負荷とトレードオフになるため、CPU負荷がボトルネックとなる可能性もあります。
+前者の圧縮については、[^3]で紹介されている差分符号化やXOR符号化のテクニックをGraphiteに実装すれば、実現できそうではあります。しかし、これらのエンコーディングにより、ランダムアクセスできなくなるため、Graphiteのラウンドロビンデータベース構造とうまく噛み合うかがわからないところです。圧縮は基本的に、CPU負荷とトレードオフになるため、CPU負荷がボトルネックとなる可能性もあります。
 後者のデータ移動については、Graphiteのラウンドロビンデータベースの、古いデータを新しいデータで上書きしていくという性質のため、別のストレージに効率よくデータを移動させることが難しく、データ構造を大きく変更する必要があります。
 
 3つ目の問題は、データロスト耐性が低く、フル同期のための運用コストが大きいことです。アプリケーションから書き込みすると、Graphiteのメモリ上のキューにデータが非同期に書き込まれるため、サーバダウンによりキューの中身をロストしてしまいます。デュアルライトにより、別のサーバには書き込まれているので、そちらからデータを同期するなど、運用でカバーしなければなりません。これを解決するには、GraphiteにWAL(Write Ahead Log)を実装するなど、大きな変更を強いられます。
@@ -55,7 +55,7 @@ Mackerelで運用している時系列データベースについては、[http:
 
 # 既存の時系列データベース
 
-まず、既存の時系列データベースの調査から始めました。Andreas Baderらのサーベイ論文[1]や[Open Source Time Series DB Comparison](https://docs.google.com/spreadsheets/d/1sMQe9oOKhMhIVw9WmuCEWdPtAoccJ4a-IuZv4fXDHxM/pubhtml)[2]にオープンソースの時系列データベース実装がまとめられています。
+まず、既存の時系列データベースの調査から始めました。Andreas Baderらのサーベイ論文[^1]や[Open Source Time Series DB Comparison](https://docs.google.com/spreadsheets/d/1sMQe9oOKhMhIVw9WmuCEWdPtAoccJ4a-IuZv4fXDHxM/pubhtml)[^2]にオープンソースの時系列データベース実装がまとめられています。
 
 ## 時系列データベースの概念
 
@@ -133,7 +133,7 @@ TTLがexpireしたレコードを[DynamoDB Triggers](http://docs.aws.amazon.com/
 テーブルファイルがS3に配置されても、巨大なテーブルファイルに対してクエリするのは現実的ではないため、テーブルファイルをレコード単位に分割してS3に保存し直すような手間のかかる処理が必要でした。
 テーブル単位による管理を強いられるため、アイテム単位で細かくデータ配置を制御したくなったときに、どうしようもなくなるという問題もありました。
 
-古くなったデータを別のストレージに移動したいというのは一般的な要求なので、データベースのTTLとイベント通知というサーバーレスアーキテクチャらしい仕組みは、汎用的に利用できるアーキテクチャだと考えています。
+古くなったデータを別のストレージに移動したいというのは一般的な要求なので、データベースのTTLとイベント通知というサーバーレスアーキテクチャらしい仕組みは、汎用的に利用できるアーキテクチャだと考えています。(2018/05/04追記: [http://blog.yuuk.io/entry/2017/timefuze-architecture:title:bookmark] として一般化して提案しました。)
 
 ## 実装
 
@@ -169,14 +169,14 @@ Diamondアーキテクチャのデメリットとして、構成要素が多い�
 <script async class="speakerdeck-embed" data-id="3d6b482745a145f299e1331db8fba165" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
 </div>
 
-## 参考資料
+## 参考文献
 
-- [1]: Andreas Bader, Oliver Kopp, Michael Falkenthal. "Survey and Comparison of Open Source time Series Databases". In proceedings of BTW 2017.
-- [2]: [Open Source Time Series DB Comparison](https://docs.google.com/spreadsheets/d/1sMQe9oOKhMhIVw9WmuCEWdPtAoccJ4a-IuZv4fXDHxM/pubhtml)
-- [3]: [http://techlife.cookpad.com/entry/timeseries-database-001:title:bookmark]
-- [4]: [http://blog.yuuk.io/entry/high-performance-graphite:title:bookmark]
-- [5]: [https://speakerdeck.com/yuukit/the-study-of-time-series-database-for-server-monitoring:title:bookmark]
-- [6]: [https://speakerdeck.com/yuukit/performance-improvement-of-tsdb-in-mackerel:title:bookmark]
+[^1]: Andreas Bader, Oliver Kopp, Michael Falkenthal. "Survey and Comparison of Open Source time Series Databases". In proceedings of BTW 2017.
+[^2]: [Open Source Time Series DB Comparison](https://docs.google.com/spreadsheets/d/1sMQe9oOKhMhIVw9WmuCEWdPtAoccJ4a-IuZv4fXDHxM/pubhtml)
+[^3]: [http://techlife.cookpad.com/entry/timeseries-database-001:title:bookmark]
+[^4]: [http://blog.yuuk.io/entry/high-performance-graphite:title:bookmark]
+[^5]: [https://speakerdeck.com/yuukit/the-study-of-time-series-database-for-server-monitoring:title:bookmark]
+[^6]: [https://speakerdeck.com/yuukit/performance-improvement-of-tsdb-in-mackerel:title:bookmark]
 
 # あとがき
 
