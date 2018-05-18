@@ -333,6 +333,30 @@ Prometheusのストレージはファイルシステム上に実装されてい�
 まず、アーキテクチャ要件の(a)、(b)、(c)の有効性を示すために、先行実装であるGraphiteと比較実験する。
 次に、アーキテクチャ要件の(d)、(e)の有効性を示すための文献を調査する。例えば、ソフトウェア開発論文のサーベイにより開発容易性やOSS実装の複雑性を示すヒントを発見する。
 
+# スライド
+
+[https://speakerdeck.com/yuukit/heterotsdb:embed]
+
+# あとがき
+
+@hirolovesbeerさんからの「ヘテロジニアス(heterogeneous)に込めた意味はなにか？」という質問に対してうまく答えられなかったが、この問いの答えがもともとあとがきで書こうと思っていたことだということに気づいたので、ここに記しておく。
+
+ヘテロジニアスの対義語として、ホモジニアス(homogeneous)があり、ホモジニアスな時系列データベースとはここではDBMSの実装を一つだけ使ったものを指す。
+それに対して、ここでのヘテロジニアスとは、異種混合データベースの上にデータベースエンジンを実装することを指しており、ヘテロジニアスであることがDiamondアーキテクチャのアイデアの要点となる。
+
+Martin Kleppmann著、「Designing Data-Intensive Applications」[^6]の12章 The Future Of Data Systemsにて、データシステムを構築する上で、すべての異なる状況に適した1つのソフトウェアは存在せず、異なるソフトウェアを組み合わせアプリケーションを開発していく必要があるという趣旨の意見が書かれている。
+Diamondアーキテクチャは、この考え方の延長線上にあり、インデックス、WAL、メモリ上のデータ構造、ディスク上のデータ構造など、古典的なデータベースエンジンの構成要素を、ヘテロジニアス環境で再構築したものになる。
+そして、サーバレスアーキテクチャにより、分散システム上での複数箇所にまたがるデータの更新、移動を、信頼性のあるビルディングブロックの上に構築しやすくなった。
+
+実際に、ヘテロジニアスKVS環境でGraphiteを実装したもになるため、今度はヘテロジニアスKVS環境でPrometheusを実装することを考えるといろいろとアイデアがでてくる。
+
+実はこれと似た話が身近にあり、例えば id:matsumoto_r:detail さんの言葉を引用する。
+
+> 今後はVMやコンテナの連携が今でいうOSとなる世界が来ると思っているので、古典的なOSの機能をいかにネットワークに通じたそれに置き換えていくかに挑戦
+> *cgroupとLinux Capabilityの活用 - <https://speakerdeck.com/matsumoto_r/rcon-and-capcon-internals-number-lxcjp>*
+
+この言葉を、分散システム上でOSの構成要素を再構築していくということだと理解しており、これをデータベースに置き換えたような話をやろうとしている気がしてきている。
+
 # 参考文献
 
 [^1]: [http://blog.yuuk.io/entry/2017/the-concept-of-autonomous-web-system:title:bookmark]
@@ -362,27 +386,3 @@ Prometheusのストレージはファイルシステム上に実装されてい�
 [^26]: [https://speakerdeck.com/astj/mackerel-meetup-number-11-tokyo:title:bookmark]
 [^27]: Michael P Andersen and David E. Culler, "BTrDB: Optimizing Storage System Design for Timeseries Processing", In Proceedings of 14th USENIX Conference on File and Storage Technologies (FAST), 2016.
 [^28]: Florian Lautenschlager, et.al., "Chronix: Long Term Storage and Retrieval Technology for Anomaly Detection in Operational Data", In Proceedings of 14th USENIX Conference on File and Storage Technologies (FAST), 2016.
-
-# スライド
-
-[https://speakerdeck.com/yuukit/heterotsdb:embed]
-
-# あとがき
-
-@hirolovesbeerさんからの「ヘテロジニアス(heterogeneous)に込めた意味はなにか？」という質問に対してうまく答えられなかったが、この問いの答えがもともとあとがきで書こうと思っていたことだということに気づいたので、ここに記しておく。
-
-ヘテロジニアスの対義語として、ホモジニアス(homogeneous)があり、ホモジニアスな時系列データベースとはここではDBMSの実装を一つだけ使ったものを指す。
-それに対して、ここでのヘテロジニアスとは、異種混合データベースの上にデータベースエンジンを実装することを指しており、ヘテロジニアスであることがDiamondアーキテクチャのアイデアの要点となる。
-
-Martin Kleppmann著、「Designing Data-Intensive Applications」[^6]の12章 The Future Of Data Systemsにて、データシステムを構築する上で、すべての異なる状況に適した1つのソフトウェアは存在せず、異なるソフトウェアを組み合わせアプリケーションを開発していく必要があるという趣旨の意見が書かれている。
-Diamondアーキテクチャは、この考え方の延長線上にあり、インデックス、WAL、メモリ上のデータ構造、ディスク上のデータ構造など、古典的なデータベースエンジンの構成要素を、ヘテロジニアス環境で再構築したものになる。
-そして、サーバレスアーキテクチャにより、分散システム上での複数箇所にまたがるデータの更新、移動を、信頼性のあるビルディングブロックの上に構築しやすくなった。
-
-実際に、ヘテロジニアスKVS環境でGraphiteを実装したもになるため、今度はヘテロジニアスKVS環境でPrometheusを実装することを考えるといろいろとアイデアがでてくる。
-
-実はこれと似た話が身近にあり、例えば id:matsumoto_r:detail さんの言葉を引用する。
-
-> 今後はVMやコンテナの連携が今でいうOSとなる世界が来ると思っているので、古典的なOSの機能をいかにネットワークに通じたそれに置き換えていくかに挑戦
-> *cgroupとLinux Capabilityの活用 - <https://speakerdeck.com/matsumoto_r/rcon-and-capcon-internals-number-lxcjp>*
-
-この言葉を、分散システム上でOSの構成要素を再構築していくということだと理解しており、これをデータベースに置き換えたような話をやろうとしている気がしてきている。
