@@ -5,11 +5,13 @@ Category:
 - Architecture
 - Mackerel
 Date: 2017-06-05T09:10:00+09:00
-URL: http://blog.yuuk.io/entry/the-rebuild-of-tsdb-on-cloud
+URL: https://blog.yuuk.io/entry/the-rebuild-of-tsdb-on-cloud
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/10328749687260017347
 ---
 
 サーバ監視サービス[Mackerel](https://mackerel.io/)において開発中の、高解像度・長期間のサーバメトリック収集を実現するための新しい時系列データベースDiamondを紹介します。具体的には、Amazon ElastiCache、Amazon DynamoDB、Amazon S3を組み合わせ、Amazon Kinesis StreamsとAWS Lambdaによりコンポーネント間を接続した、階層構造のデータストアアーキテクチャの設計と実装を解説します。
+
+2018/06/05 追記: この記事の内容をWSA研#2でより一般的なアーキテクチャレベルでの貢献として書き直しました。 [http://blog.yuuk.io/entry/2018/heterotsdb-architecture:title:bookmark]
 
 # はじめに
 
@@ -33,9 +35,9 @@ Mackerelにおけるメトリックの収集とグラフ化の仕組みの概要
 
 [f:id:y_uuki:20170604121505p:image:w600]
 
-時系列データベースとはそもそも何でしょうか。時系列データベースとは、時系列データを扱うことに特化したデータベースであり、サーバモニタリングやIoTの文脈でのセンサーデータの収集のために使われます。有名な実装として、[OpenTSDB](http://opentsdb.net/)、[InfluxDB](https://github.com/influxdata/influxdb)、[Graphite](http://graphite.readthedocs.io/) などがあります。地味にみえて、多くの実装が存在し、学術研究論文になっているものもあります。id:rrreeeyyy:detail さんの [http://techlife.cookpad.com/entry/timeseries-database-001:title:bookmark] [^3]が詳しいので、一読することを薦めます。
+時系列データベースとはそもそも何でしょうか。時系列データベースとは、時系列データを扱うことに特化したデータベースであり、サーバモニタリングやIoTの文脈でのセンサーデータの収集のために使われます。有名な実装として、[OpenTSDB](http://opentsdb.net/)、[InfluxDB](https://github.com/influxdata/influxdb)、[Graphite](http://graphite.readthedocs.io/) などがあります。地味にみえて、多くの実装が存在し、学術研究論文になっているものもあります。id:rrreeeyyy:detail さんの [https://techlife.cookpad.com/entry/timeseries-database-001:title:bookmark] が詳しいので、一読することを薦めます。
 
-Mackerelで運用している時系列データベースについては、[http://blog.yuuk.io/entry/high-performance-graphite:title:bookmark] [^4]の記事にまとめています。2年前の記事ですが、現状でも概ねこの通りの構成で運用しています。1台あたりピーク時で150k write IOPSを叩き出しており、[https://speakerdeck.com/yuukit/the-study-of-time-series-database-for-server-monitoring:title:bookmark] [^5]で紹介したようにパッチをあててパフォーマンスを改善してきました。
+Mackerelで運用している時系列データベースについては、[http://blog.yuuk.io/entry/high-performance-graphite:title:bookmark] の記事にまとめています。2年前の記事ですが、現状でも概ねこの通りの構成で運用しています。1台あたりピーク時で150k write IOPSを叩き出しており、[https://speakerdeck.com/yuukit/the-study-of-time-series-database-for-server-monitoring:title:bookmark] で紹介したようにパッチをあててパフォーマンスを改善してきました。
 
 ところが、MackerelのGraphite運用には、以下の4つの問題を抱えています。
 
@@ -198,7 +200,5 @@ Mackerelでは、時系列データベース以外にも、おもしろいソフ
 
 ## 追記
 
-2017/11/03の[Serverlessconf Tokyo 2017](tokyo.serverlessconf.io)にて、リリース後の監視・運用の話を紹介しています。
-<div style="width: 70%">
-<script async class="speakerdeck-embed" data-id="c1e5e041140945188ca5b0de4ee32f34" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
-</div>
+[https://speakerdeck.com/itchyny/serverlessconf-tokyo-2017:embed]
+[https://speakerdeck.com/astj/mackerel-meetup-number-11-tokyo:embed]

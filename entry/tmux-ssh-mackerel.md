@@ -1,9 +1,9 @@
 ---
-Title: "tmux + ssh + Mackerel API を組み合わせたとにかくモダンなサーバオペレーション"
+Title: tmux + ssh + Mackerel API を組み合わせたとにかくモダンなサーバオペレーション
 Category:
 - Mackerel
 Date: 2014-09-26T09:00:00+09:00
-URL: http://blog.yuuk.io/entry/tmux-ssh-mackerel
+URL: https://blog.yuuk.io/entry/tmux-ssh-mackerel
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450066357653
 ---
 
@@ -29,7 +29,7 @@ tmux を使って、複数ホストに同時 ssh ログインして同時にオ�
 [https://github.com/dennishafemann/tmux-cssh:title] を使ってもよいし、下記のようなスクリプトを使ってもよい。
 挙動はほぼ同じで、tmux を使うと30行足らずで実現できるがすごい。
 
-https://github.com/y-uuki/opstools/blob/master/bin/tssh
+https://github.com/y-uuki/opstools/blob/master/tssh
 
 ```sh
 #!/bin/bash

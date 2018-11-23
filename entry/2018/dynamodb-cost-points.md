@@ -1,10 +1,10 @@
 ---
-Title: DynamoDBのインフラコスト構造と削減策
+Title: DynamoDBのインフラコストの構造と削減策
 Category:
 - Database
 - DynamoDB
 Date: 2018-04-16T23:56:19+09:00
-URL: http://blog.yuuk.io/entry/2018/dynamodb-cost-points
+URL: https://blog.yuuk.io/entry/2018/dynamodb-cost-points
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/17391345971635750655
 ---
 
