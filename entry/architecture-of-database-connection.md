@@ -1,13 +1,13 @@
 ---
-Title: "Webシステムにおけるデータベース接続アーキテクチャ概論"
+Title: Webシステムにおけるデータベース接続アーキテクチャ概論
 Category:
-- "Webサーバ"
+- Webサーバ
 - PostgreSQL
 - MySQL
 - Database
 - Architecture
 Date: 2015-06-30T08:30:00+09:00
-URL: http://blog.yuuk.io/entry/architecture-of-database-connection
+URL: https://blog.yuuk.io/entry/architecture-of-database-connection
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450099433851
 ---
 
@@ -257,11 +257,5 @@ Webアプリケーションにおける都度接続、常時接続、コネク�
 接続を永続化したときのロードバランサによる接続管理の難しさなどのシステム運用事情は、なかなかアプリケーションエンジニアには馴染みがないか気づきにくいことだと思います。一方、Webアプリケーション側のデータベース接続まわりのコードがどのようになっているか、オペレーションエンジニアにとっては把握しづらいところかもしれません。
 
 このようなシステムのアーキテクチャに対する共通理解もいわゆるDevOpsの一環だと思っています。あまりDevOpsの文脈で語られることはないかもしれませんが。
-
-はてなでは、OSやミドルウェア、ネットワークプロトコルの仕組みを踏まえて、コードを書いたり、システムを設計・運用したいエンジニアを募集しています。
-
-[http://hatenacorp.jp/recruit/career/application-engineer:embed]
-[http://hatenacorp.jp/recruit/career/operation-engineer:embed]
-
 
 [asin:4873116384:detail]

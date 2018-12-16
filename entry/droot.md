@@ -1,11 +1,11 @@
 ---
-Title: "Dockerとchrootを組み合わせたシンプルなコンテナデプロイツール"
+Title: Dockerとchrootを組み合わせたシンプルなコンテナデプロイツール
 Category:
 - Docker
 - Linux
 - Go
 Date: 2015-12-01T09:00:00+09:00
-URL: http://blog.yuuk.io/entry/droot
+URL: https://blog.yuuk.io/entry/droot
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/6653586347147020606
 ---
 
@@ -200,11 +200,6 @@ Dockerのコンセプト「Build, Ship, Run」に立ち返り、dependency hell�
 
 <blockquote class="twitter-tweet" lang="ja"><p lang="ja" dir="ltr">&quot;Dockerはもう古い これからはchroot&quot;という話をしました</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/614712907415162880">2015, 6月 27</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-はてなでは、地に足をつけて、モダンな技術も伝統的な技術も取り入れて、シンプルに課題を解決したいエンジニアを募集しています。
-
-[http://hatenacorp.jp/recruit/career/operation-engineer:embed]
-[http://hatenacorp.jp/recruit/career/application-engineer:embed]
 
 はてなの2017年度 新卒採用サイトがオープンしました。
 [http://developer.hatenastaff.com/entry/2015/12/01/120330:embed:cite]

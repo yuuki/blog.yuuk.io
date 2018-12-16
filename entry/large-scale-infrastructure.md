@@ -5,7 +5,7 @@ Category:
 - Database
 - Performance
 Date: 2015-07-30T08:30:00+09:00
-URL: http://blog.yuuk.io/entry/large-scale-infrastructure
+URL: https://blog.yuuk.io/entry/large-scale-infrastructure
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450103877378
 ---
 
@@ -367,11 +367,6 @@ Mackerelはまだ新しいサービスで歴史的事情が少ないシステム
 トーク日程は前夜祭ということで、どのチケットでも参加していただけるようです。
 
 [http://yapcasia.org/2015/talk/show/7d62caf8-12f4-11e5-881c-d9f87d574c3a:embed]
-
-毎度になりますが、はてなではエンジニアの採用応募をお待ちしています。
-
-[http://hatenacorp.jp/recruit/career/application-engineer:embed]
-[http://hatenacorp.jp/recruit/career/operation-engineer:embed]
 
 [asin:4774135666:detail]
 

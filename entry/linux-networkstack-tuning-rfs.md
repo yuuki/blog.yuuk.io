@@ -1,5 +1,5 @@
 ---
-Title: "Linuxでロードバランサやキャッシュサーバをマルチコアスケールさせるためのカーネルチューニング"
+Title: Linuxでロードバランサやキャッシュサーバをマルチコアスケールさせるためのカーネルチューニング
 Category:
 - Linux
 - Kernel
@@ -8,7 +8,7 @@ Category:
 - Performance
 - TCP
 Date: 2015-03-31T08:30:00+09:00
-URL: http://blog.yuuk.io/entry/linux-networkstack-tuning-rfs
+URL: https://blog.yuuk.io/entry/linux-networkstack-tuning-rfs
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450089846829
 ---
 
@@ -311,9 +311,6 @@ RFS はハードウェア依存がなく、カーネルのバージョンさえ�
 
 間違っている記述などがあれば斧ください。
 
-はてなでは、実際の本番環境を相手にチューニングしてハードウェア性能を使い切りたいエンジニアを募集しています。
-
-[http://hatenacorp.jp/recruit/fresh/operation-engineer:embed]
 
 【追記】コメントいただいたように、ソフトウェア割り込みという言葉を使うと、CPUのソフトウェア割り込みと混同していますので、Linux カーネルの softirq を「ソフト割り込み」と呼ぶように修正しました。(http://www.slideshare.net/syuu1228/10-gbeio の資料などから softirq をソフトウェア割り込みと呼ぶこともあるようです)
 

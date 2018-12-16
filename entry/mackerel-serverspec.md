@@ -1,10 +1,10 @@
 ---
-Title: "Serverspec + Mackerel APIによるインフラテストの実運用化"
+Title: Serverspec + Mackerel APIによるインフラテストの実運用化
 Category:
 - Mackerel
 - Serverspec
 Date: 2015-12-24T09:00:30+09:00
-URL: http://blog.yuuk.io/entry/mackerel-serverspec
+URL: https://blog.yuuk.io/entry/mackerel-serverspec
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/6653586347149637775
 ---
 
@@ -268,12 +268,6 @@ APIによるホスト情報の一元化というMackerelの思想がとても好
 myfinderさんに以前のmeetupで良い紹介の仕方をしていただきました [https://github.com/myfinder/mackerel-meetup-3/blob/master/slide.md:title:bookmark] 。
 
 最後に、１年近く前の話になりますが、[Serverspec](http://www.oreilly.co.jp/books/9784873117096/)本の献本をどうもありがとうございました。
-
-
-はてなではMackerelを中心としたインフラ運用環境の開発に興味があるエンジニアを募集しています。
-
-[http://hatenacorp.jp/recruit/career/operation-engineer:embed]
-[http://hatenacorp.jp/recruit/career/application-engineer:embed]
 
 明日はアドベントカレンダー最終日です。お楽しみに。
 

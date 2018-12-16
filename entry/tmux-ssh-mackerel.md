@@ -157,11 +157,3 @@ $ tssh `role Saba-Blog app`
 Zabbix や Datadog など他のサーバ管理ツール/サービスを使っても、もちろん同じことはできるだろうけど、Mackerel はホストのグルーピングの指針が定まっているので、グルーピング方針に迷うことが少ないと思う。
 
 社内でこの手の連携は昔からやってて、とにかく便利で毎日使ってる。
-
-
-↓ とにかくモダンなサーバ管理、とにかくモダンなサーバ管理ツールを作ることに興味がある人ははてなで一緒に働きましょう!!!!
-
-<div style="border: 1px solid #DED6CF; padding: 10px; margin-top: 20px;">
-株式会社はてなではインターネットで生活を楽しく豊かにしたいスタッフを募集しています<br>
-<a href="http://hatenacorp.jp/recruit/" target="_blank">採用情報 - 株式会社はてな</a>
-</div>

@@ -1,10 +1,10 @@
 ---
-Title: "Googleが数千台もある10年前のLinuxディストリをライブアップグレードした話"
+Title: Googleが数千台もある10年前のLinuxディストリをライブアップグレードした話
 Category:
 - Linux
 - 論文
 Date: 2016-05-31T18:30:00+09:00
-URL: http://blog.yuuk.io/entry/google-linux-distribution-live-upgrade
+URL: https://blog.yuuk.io/entry/google-linux-distribution-live-upgrade
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/6653812171398917634
 ---
 
@@ -142,10 +142,3 @@ Googleでさえ、太古のディストリビューションのメンテナン�
 手法自体は泥臭い一方で、できるかどうかわからなかったライブアップグレードする技術力があるのはさすがで、既存のディストリにそのまま依存すべきではなくProdNGという新しいディストリをデザインするところもさすがといえる。
 
 やりたいことを実現できる技術力と、長期運用するためにディストリはどうあるべきなのかというビジョンと、レガシーな環境を技術で解決するぞというやっていく気持ちを感じられた。
-
-はてなでは、技術で問題を解決していく気持ちをもったエンジニアを募集しています。
-
-[http://hatenacorp.jp/recruit/career/operation-engineer:embed]
-
-さらに2016年のインターンも募集しています。
-[http://hatenacorp.jp/recruit/intern2016/:embed]

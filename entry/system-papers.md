@@ -3,7 +3,7 @@ Title: インフラエンジニア向けシステム系論文
 Category:
 - 論文
 Date: 2014-12-23T23:30:00+09:00
-URL: http://blog.yuuk.io/entry/system-papers
+URL: https://blog.yuuk.io/entry/system-papers
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450077708710
 ---
 
@@ -15,7 +15,6 @@ EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/845442
 
 はてなでは、id:tarao:detail さんを中心に有志で論文輪読会を定期的に開催しており、システム系論文にかぎらず、言語処理系、機械学習についての論文などが読まれています。
 だいたい１人でインフラまわりの論文を読んでいて、インフラエンジニア向けの論文知見が溜まってきたので、紹介したいと思います。
-大学院にいたころ、研究そのものはそれなりに好きだったが、大学とか研究室はあまり好きではなかったので、そういう人間がなんか雑に書いてるぐらいのイメージです。
 
 <!-- more -->
 

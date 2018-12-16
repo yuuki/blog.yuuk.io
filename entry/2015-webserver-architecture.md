@@ -1,13 +1,13 @@
 ---
-Title: "2015年Webサーバアーキテクチャ序論"
+Title: 2015年Webサーバアーキテクチャ序論
 Category:
 - Architecture
-- "Webサーバ"
+- Webサーバ
 - Kernel
 - UNIX
 - TCP
 Date: 2015-05-28T08:30:00+09:00
-URL: http://blog.yuuk.io/entry/2015-webserver-architecture
+URL: https://blog.yuuk.io/entry/2015-webserver-architecture
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450095701405
 ---
 
@@ -301,13 +301,3 @@ Web上の文献に頼るとどうしてもボトムアップ式の学習にな�
 http://d.hatena.ne.jp/tomomii/20080823/1219502947:title:bookmark
 
 Webサーバについては、5年後、10年後もおそらく同じような仕組みの延長線上で実装されていると思うので、3年後に使っているかどうかもわからない流行りのツールでただ消耗するよりは息の長い技術や知識を身につけたいと思っている昨今です。もちろん流行りのツールも好きなんですが。
-
-はてなでは、大規模なサービスならではのOSやミドルウェアのパフォーマンスを意識したサービスアーキテクチャや、Herokuにpushするだけでは飽き足らない裏側の仕組みが好きなエンジニアを募集しています。
-
-[http://hatenacorp.jp/recruit/career/operation-engineer:embed]
-[http://hatenacorp.jp/recruit/career/application-engineer:embed]
-
-【追記】
-今年のはてなインターンを募集中です。特にこの記事にあるようなシステム系の話題であれば、はてなの大規模サーバ群を相手にできる「大規模システムコース」がおすすめです。
-
-[http://hatenacorp.jp/recruit/intern2015/:embed:cite]

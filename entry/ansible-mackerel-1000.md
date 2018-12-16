@@ -1,10 +1,10 @@
 ---
-Title: "Ansible + Mackerel APIによる1000台規模のサーバオペレーション"
+Title: Ansible + Mackerel APIによる1000台規模のサーバオペレーション
 Category:
 - Mackerel
 - Ansible
 Date: 2015-02-26T08:00:00+09:00
-URL: http://blog.yuuk.io/entry/ansible-mackerel-1000
+URL: https://blog.yuuk.io/entry/ansible-mackerel-1000
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450085450836
 ---
 
@@ -265,14 +265,6 @@ Mackerel の思想の一つとして、APIによるホスト情報の一元管�
 さらに、Mackerel に登録したサービス、ロールやステータスなどのホスト情報を扱えるようになるのが便利なところです。
 
 本当は1台のホストから多数のホストに接続する push 型ではなく、Gossipプロトコルなどのアドホックなネットワーク通信を用いた Serf、Consul のような pull 型のほうが圧倒的にオペレーション速度は速いはずですが、そもそも pull を実行するソフトウェアを各ホストにインストール/アップデートしなければならないため、このような仕組みは必要だと思っています。
-
-# 積極採用!!!
-
-1000台規模のサーバを抱えていると普通は発生しないような課題がたくさんあります。
-はてなでは、そんな大規模環境特有の課題に取り組みたいWebオペレーションエンジニア（いわゆるインフラエンジニア）を積極採用中です。
-
-[http://hatenacorp.jp/recruit/career/operation-engineer:embed]
-
 
 # Twitter
 

@@ -5,7 +5,7 @@ Category:
 - Docker
 - Container
 Date: 2016-04-27T10:45:00+09:00
-URL: http://blog.yuuk.io/entry/diy-container
+URL: https://blog.yuuk.io/entry/diy-container
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/6653812171393185239
 ---
 
@@ -166,11 +166,7 @@ id:matsumoto_r:detail さんの発表を拝聴したり、その後の懇親会�
 最近は、ユーザランドのサーバソフトウェアが各々実装しているような機能をカーネルの汎用機能で置き換えられないかを考えている。
 ジャストアイデアだけど、例えば、[http://yuuki.hatenablog.com/entry/infra-for-newlang:title=ウェブアプリケーション開発に新言語を採用したときにインフラで考えたこと:bookmark]で書いたように、preforkが運用しやすいならば、preforkに対応できないサーバソフトウェアをコンテナに入れて、複数のコンテナを起動し、[Linux IPVS](http://www.linuxvirtualserver.org/software/ipvs.html)で内部分散してしまえばよい、といったことだ。定期的にプロセス(コンテナ)を生成しなおす仕組みやGracefulに再起動する仕組みをどうするかはまだ考えているところだが。IPVSのルーティングを動的にweight 0にしてActiveConnが0になったらコンテナごと捨てて作りなおすというところまで思いついた。これができればいわゆるワーカープロセス単位でリソース制限することも簡単だし、harakiri的なことも簡単にできるかもしれない。
 
-はてなでは他人が書いたソフトウェアを組み合わせるだけでなく、小さなことであっても自分で新しいなにかを生み出していきたいエンジニアをお待ちしています。
-
 [https://twitter.com/y_uuk1/status/724447190467256320:embed]
-
-[http://hatenacorp.jp/recruit/career/operation-engineer:embed]
 
 # 発表資料
 

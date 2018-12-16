@@ -9,7 +9,7 @@ Category:
 - Architecture
 - Database
 Date: 2015-04-30T08:30:00+09:00
-URL: http://blog.yuuk.io/entry/high-performance-graphite
+URL: https://blog.yuuk.io/entry/high-performance-graphite
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450093057979
 ---
 
@@ -338,9 +338,5 @@ whisper以外テストコードがない状態なので、いきおいよくマ�
 
 とはいえ、現状安定しているシステムでも、サービスの成長にあわせてスケールさせていく必要があります。
 特にトラヒックの桁が1つ2つ上のスケーラビリティを達成するためにはシステムのアーキテクチャを大きく変えることもあるでしょう。
-
-はてなでは、計算機、OS、ネットワーク、ミドルウェアの知識を駆使して、日々成長していくサービスのトラヒックに耐えるシステムを構築・運用することに興味のあるエンジニアを募集しています。
-
-[http://hatenacorp.jp/recruit/career/operation-engineer:embed]
 
 [asin:1491916435:detail]

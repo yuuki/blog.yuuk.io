@@ -4,7 +4,7 @@ Category:
 - Performance
 - Docker
 Date: 2015-01-19T08:00:00+09:00
-URL: http://blog.yuuk.io/entry/docker-performance-on-web-application
+URL: https://blog.yuuk.io/entry/docker-performance-on-web-application
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450080670369
 ---
 
@@ -175,9 +175,3 @@ Linuxカーネル、特にUNION Filesystem周りでパフォーマンスに関�
 会場を提供していただいた Recruit Technologies の皆様、イベントを企画運営していただいた皆様、どうもありがとうございました。
 非常に有意義なイベントでした。
 
-
-はてなではWebオペレーションエンジニア（いわゆるインフラエンジニア）を募集しています。
-
-[http://hatenacorp.jp/recruit/fresh/operation-engineer:embed]
-
-[http://hatenacorp.jp/recruit/fresh/operation-engineer:title]
