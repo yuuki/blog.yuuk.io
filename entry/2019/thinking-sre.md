@@ -2,7 +2,7 @@
 Title: 2019年SRE考
 Category:
 - SRE
-Date: 2019-01-16T19:11:11+09:00
+Date: 2019-01-16T23:16:11+09:00
 URL: https://blog.yuuk.io/entry/2019/thinking-sre
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/10257846132706552331
 CustomPath: 2019/thinking-sre
