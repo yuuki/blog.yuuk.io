@@ -70,22 +70,32 @@ HTTPリダイレクトや静的コンテンツの配信など、ウェブサー�
 
 ## ウェブアプリケーションの分類
 
-ブログシステムのような読み込み処理主体のRead Heavyアプリケーションと、ソーシャルゲームのような書き込み処理主体のWrite Heavyアプリケーション
+### アクセスパターン
+
+ウェブアプリケーションをアクセスパターンにより分類すると、ブログシステムのような読み込み処理主体のRead Heavyアプリケーションと、ソーシャルゲームのような書き込み処理主体のWrite Heavyアプリケーションがある。
+Read Heavyアプリケーション
+
+- 地域による参照局所性
 
 # アーキテクチャ
 
-- 課題を解決するために、分散キャッシュを提案する。
-- キャッシュ同期 一貫性 アプリケーション変更しないように
-- リアクティブ性: キャッシュがないうちは、クラウドへ接続 クラウド上でキャッシュを作成し、クラウドからエッジへキャッシュ同期しリアクティブ
-  - 端末近傍のエッジを覚えておくシステムがいる
+エッジコンピューティングがもつエンドユーザーとのレイテンシ最小化の利点を活かすには、Read Heavyアプリケーションに対して、構成パターン(a)または(b)を適用することになる。
+データの複製、クエリの結果のキャッシュ、バッファプールを各MDC間で協調して同期することにより、それぞれの構成の課題を解決する。
 
 ## 分散クエリキャッシュ
+
+分散クエリキャッシュの先行手法として,
+Ferdinand[^9]がある。
+Ferdinandは、各アプリケーションサーバがキャッシュをローカルに持ち Publish/Subscribeにより、アプリケーションサーバ群が協調してキャッシュを同期する。これにより、中央のデータベースサーバの負荷を削減し、スループットを向上させている。
+
+エッジ環境では、エッジ数の個数の増加とエッジ間やエッジ・クラウド間のネットワークがレイテンシが大きいかつ不安定になることが想定される。
+キャッシュもっともレイテンシ
 
 - プロキシ型
 - コネクションプーリング https://blog.yuuk.io/entry/architecture-of-database-connection
 - キャッシュストア B-treeArray 
 https://github.com/sysown/proxysql/blob/89e31bf972110edf68ebd1f3950ceb25056452cc/include/query_cache.hpp#L35
-- キャッシュインとアウトの同期 
+- キャッシュインとアウトの同期
   - LAN Gossip & WAN Gossip https://www.consul.io/docs/internals/architecture.html
 
 ## 分散バッファプール
@@ -97,6 +107,12 @@ https://github.com/sysown/proxysql/blob/89e31bf972110edf68ebd1f3950ceb25056452cc
 
 - 分散バッファプール
 - Buffer pool の一貫性
+
+
+- キャッシュ同期 一貫性 アプリケーション変更しないように
+- リアクティブ性: キャッシュがないうちは、クラウドへ接続 クラウド上でキャッシュを作成し、クラウドからエッジへキャッシュ同期しリアクティブ
+  - 端末近傍のエッジを覚えておくシステムがいる
+
 
 # まとめと今後の展望
 
@@ -117,6 +133,8 @@ https://github.com/sysown/proxysql/blob/89e31bf972110edf68ebd1f3950ceb25056452cc
 [^6]: Sharad Agarwal, Matthai Philipose, and Paramvir Bahl, "Vision: the case for cellular small cells for cloudlets", Fifth International Workshop on Mobile Cloud Computing & Services, pp.1-5, 2014.
 [^7]: Douglas B. Terry, Alan J. Demers, Karin Petersen, et al., “Session Guarantees for Weakly Consistent Replicated Data”, 3rd International Conference on Parallel and Distributed Information Systems (PDIS), 1994.
 [^8]: Douglas B. Terry, “Replicated Data Consistency Explained Through Baseball,” Microsoft Research, Technical Report MSR-TR-2011-137, 2011.
+[^9]: Charles Garrod, Amit Manjhi, Anastasia Ailamaki, Bruce Maggs, Todd Mowry, Christopher Olston, and Anthony Tomasic, “Scalable Query Result Caching for Web Applications”, VLDB Endowment, vol. 1, no. 1, pp.550-561, 2008.
+
 <!-- [^7]: Shubham Agarwal, Sarvesh SS Rawat and V Sumathi, "A Drawing Robotic Hand Based on Inverse Kinematics", 
 International Conference on Information Communication and Embedded Systems (ICICES), pp. 1-5, 2014 -->
 
