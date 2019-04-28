@@ -10,6 +10,7 @@ EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/845442
 
 Ansible と Mackerel API を組み合わせて、1000台規模のサーバ群に対して同時にパッケージの更新やその他のサーバオペレーションのための方法を紹介します。
 タイトルに Mackerel とありますが、それほど Mackerel に依存しない話です。
+([https://blog.yuuk.io/entry/2018/all-servers-operations-environment:title:bookmark]に続編を書いています。)
 
 # 背景
 

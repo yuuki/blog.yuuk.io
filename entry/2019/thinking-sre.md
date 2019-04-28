@@ -5,11 +5,10 @@ Category:
 Date: 2019-01-16T23:16:11+09:00
 URL: https://blog.yuuk.io/entry/2019/thinking-sre
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/10257846132706552331
-CustomPath: 2019/thinking-sre
 ---
 
-この記事では、[Site Reliability Engineering (SRE)](https://landing.google.com/sre/)について、自分が数年考えてきたことをまとめる。
-先月開催された[Mackerel Drink Up #8 Tokyo](https://mackerelio.connpass.com/event/106805/)と先日開催された[次世代Webカンファレンス](https://blog.jxck.io/entries/2018-09-15/next-web-conf-2019.html)では、SREについて集中的に議論する機会に恵まれたため、議論を文章としてまとめておこうと考えた。
+この記事では、自分が数年[Site Reliability Engineering (SRE)](https://landing.google.com/sre/)を実践しつつ、SREについて考えてきたことをまとめる。
+先月開催された[Mackerel Drink Up #8 Tokyo](https://mackerelio.connpass.com/event/106805/)と先日開催された[次世代Webカンファレンス 2019](https://blog.jxck.io/entries/2018-09-15/next-web-conf-2019.html)では、SREについて集中的に議論する機会に恵まれたため、脳内メモリにキャッシュされているうちにを文章としてまとめておこうと考えた。
 
 (以降では、SRE本の原著にならい、技術領域名を指すときはSRE、職種名を指すときにSREsと表記する。)
 
@@ -140,7 +139,7 @@ DevOpsの文脈においても、プロダクト開発(Dev)のアプローチで
 しかし、キャパシティを余分にもつことで費用は高くなってしまうということがある。
 
 クックパッドさんの事例では、実験をした上で、ユーザー影響を定量化し、プロダクトオーナーとの協議の末、あえてGPUからCPUに移行されていた。
-[https://techlife.cookpad.com/entry/2018-gpu_to_cpu:title]
+[https://techlife.cookpad.com/entry/gpu_to_cpu:title]
 これは、信頼性を制御した上で、費用を削減するというSREの取り組みの例といえる。
 
 ## 技芸から工学へ
@@ -167,7 +166,9 @@ Principles of Network and System Administration[Bur99]の導入部で、シス�
 自身の経験においても、[古いバージョンのMySQLクラスタの切り替え作業を曲芸のようなオペレーションで乗り切る]( https://dekotech.dekokun.info/entry/2015/12/11/120052)こともあった。((当時は同僚とMySQL4曲芸と呼んでいた))
 
 SREの登場により、技芸(Art)から工学(Engineering)へと移り変わる兆しがみえてきたように思う。
-[https://arx.appi.keio.ac.jp/2014/02/01/%E5%B7%A5%E5%AD%A6%E3%81%A8%E6%8A%80%E8%A1%93/]
+
+[https://arx.appi.keio.ac.jp/2014/02/01/%E5%B7%A5%E5%AD%A6%E3%81%A8%E6%8A%80%E8%A1%93/:title]
+
 最初は、工学ではなく科学と書いていたが、科学は文献によっては理学のみを指すこともあるようなので、工学とした。
 SREのEはEngineeringなので、工学なのは当たり前なのだが、これまではエンジニアリングといいつつも、技芸やテクニックのみになりがちであったように思う。
 とはいっても、技芸が不要ということではなく、これからは、工学と技芸の両輪で回していくことになると考えている。
