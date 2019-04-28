@@ -5,10 +5,9 @@ Category:
 - Caching
 - Distributed
 - Edge Computing
-Date: 2019-04-06T15:56:46+09:00
+Date: 2019-04-17T12:00:00+09:00
 URL: https://blog.yuuk.io/entry/2019/survey-coordinated-caching
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/17680117127009181532
-Draft: true
 ---
 
 - 著者: 坪内佑樹(\*1)
@@ -95,15 +94,14 @@ DBProxyとFerdinandのような各アプリケーションサーバが一貫し�
 エッジが地理的に張り巡らされているような環境を想定したときに，エッジ間のネットワークレイテンシが大きくなるため，エッジ間で同期を待つと，応答速度が低下するという課題がある．
 このような課題に対して，超個体的DBクエリリザルトキャッシング[^10]で紹介しているような適応的なクラスタ制御により解決を試みていくつもりがある．
 
-## HTTPキャッシュ (CDN)
-
-- CDN
-- P2Pキャッシュ
-
 # まとめ
 
 この記事では，Webアプリケーションの読み出し性能を向上させるための分散キャッシュの要素技術を調査した．
 今後は，この記事の調査内容を基に，超個体型DBクエリキャッシュ構想[^10]がどのような立ち位置にあるのかを明確にしていきたい．
+
+# スライド
+
+[https://speakerdeck.com/yuukit/edge-caching-survey:embed]
 
 # 参考文献
 
