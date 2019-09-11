@@ -27,7 +27,7 @@ EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/102578
 そこで、理想の状態を体現しているであろうGoogleやFacebookなどの企業が具体的なソフトウェアエンジニアリング時間の割合にまで言及していたことが自分の印象に残っていた。
 
 また、SREを調べているうちに、システムの信頼性を100%にはできないという前提に基づき、エラーバジェットという自分にとっては新しい考え方を発見した。
-これにより、最初のSREの印象は、これまで定性的であったシステム運用に関する意思決定材料を、定量化するための方法論であるという印象ももったことも覚えている。
+これにより、最初は，SREとはこれまで定性的であったシステム運用に関する意思決定材料を、定量化するための方法論であるという印象をもったことも覚えている。
 
 ## SRE本
 
@@ -173,7 +173,7 @@ SREの登場により、技芸(Art)から工学(Engineering)へと移り変わ�
 SREのEはEngineeringなので、工学なのは当たり前なのだが、これまではエンジニアリングといいつつも、技芸やテクニックのみになりがちであったように思う。
 とはいっても、技芸が不要ということではなく、これからは、工学と技芸の両輪で回していくことになると考えている。
 
-- [http://www.ailab.t.u-tokyo.ac.jp/horiKNC/representation_units/9:title]
+- [http://www.ailab.t.u-tokyo.ac.jp/horiKNC/representation_units/9:title=工学と理学の違い]
 - [http://www.el.gunma-u.ac.jp/~kobaweb/lablife/kougaku3.pdf:title]
 - [https://arx.appi.keio.ac.jp/2014/02/01/%E5%B7%A5%E5%AD%A6%E3%81%A8%E6%8A%80%E8%A1%93/:title]
 - [http://harashima-lab.jp/twitter/2014/02/22/2014-02-16-02-22/:title]

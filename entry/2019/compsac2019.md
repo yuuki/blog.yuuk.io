@@ -1,5 +1,5 @@
 ---
-Title: 時系列データベースの論文を国際会議IEEE COMPSACで発表した
+Title: はじめて国際会議で論文発表して考えたこと
 Category:
 - 日記
 Date: 2019-07-29T17:02:08+09:00
@@ -77,7 +77,7 @@ for Automatically Tiering on Heterogeneous Key-Value Stores](https://yuuk.io/pap
 - [https://ieeecompsac.computer.org/2019/keynotes/:title]
 - [https://ieeecompsac.computer.org/2019/presidents-panel/:title]
 
-会議期間中にずっと考えていたのは、"Is a Smarter World a Better World? Key Questions at the Intersection of Technology, Intelligence, and Ethics"というタイトルのキーノートの中で提起されていた、我々はテクノロジーにより自分たち自身を"enhance make-decision's capacity"できているかという問いについてでした。
+会議期間中にずっと考えていたのは、"Is a Smarter World a Better World? Key Questions at the Intersection of Technology, Intelligence, and Ethics"というタイトルのキーノートの中で提起されていた、我々はテクノロジーにより自分たち自身を"enhance make-decision's capacity"((decision-making capacityだったかもしれない))できているかという問いについてでした。
 日本語では、人間の意思決定能力を高めるという意味になりますが、例えば、AIの活用により、自分の過去の情報をもとに推薦される情報のみを拠り所にすると偏りが生じて、かえって人間の意思決定能力を低下させてしまうこともあり得るが、本当にそれでいいのかという問いを投げかけるような内容だったと思います。
 
 抽象度の高い問いなのでそのまま考えてもなかなか思考はまとまらないので、僕が専門とするSREの分野に置き換えて考えました。
@@ -94,7 +94,7 @@ for Automatically Tiering on Heterogeneous Key-Value Stores](https://yuuk.io/pap
 
 ## あとがき
 
-[https://hb.matsumoto-r.jp/entry/2018/07/27/234649:title:bookmark]。
+[https://hb.matsumoto-r.jp/entry/2018/07/27/234649:title:bookmark]
 
 今では同僚であるid:matsumoto_r:detailさんが昨年のCOMPSACで発表されたことは、当時はもちろん知っていましたが、その翌年に自分が発表することになるとは思いもしませんでした。とはいうものの、イメージしていないことは実現しないともいうので、覚えていないだけでイメージはしていたのかもしれません。[2年前のIPSJ-ONEで発表したときのこと](https://blog.yuuk.io/entry/ipsjone2017)を思い出しました。
 

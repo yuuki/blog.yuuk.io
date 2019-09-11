@@ -149,7 +149,7 @@ Rails界隈では、[https://github.com/sonots/activerecord-refresh_connection/p
 
 データベースの接続制限には２種類あると考えている。
 まず、Linuxカーネルでは、ポート数の上限や、ファイルディスクリプタ数などOSが管理するリソースの上限がある。
-これは、カーネルオプションの`ip_local_port_range`やデータベース側の`open_files_limit`のようなオプションで上限を調整できる。`tcp_tw_recycle`の調整で`TIME_WAIT`状態のポートを早めに再利用することもできる。(注: パラメータ名の通り、`tcp_fin_timeout`と`TIME_WAIT`は関係ないものでした。@namikawa さんご指摘ありがとうございます。)
+これは、カーネルオプションの`ip_local_port_range`やデータベース側の`open_files_limit`のようなオプションで上限を調整できる。アプリケーションサーバ側の`tcp_tw_reuse`の調整で`TIME_WAIT`状態のポートを早めに再利用することもできる。(注: パラメータ名の通り、`tcp_fin_timeout`と`TIME_WAIT`は関係ないものでした。@namikawa さんご指摘ありがとうございます。)
 次に、データベース層では、メモリのスワップなどを避けるために、接続数の上限をユーザ設定値により定めている。
 PostgreSQLの場合、[max_connections](http://www.postgresql.org/docs/9.4/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS)がそれに相当する。
 
@@ -168,8 +168,7 @@ JDBCのコネクションプーリング（[BoneCP](https://github.com/wwadge/bo
 [scala-redis](https://github.com/debasishg/scala-redis)の場合は、スレッドプールではなく、Redisのクライアントオブジェクトをグローバル空間に保持する実装になっている。
 プールのデータ構造には、スタック、キュー、連結リストなど様々な構造が用いられているようだ。
 
-(ドライバ型)
-f:id:y_uuki:20150630020900p:image
+[f:id:y_uuki:20150630020900p:image]
 
 ## コネクションプーリング: プロキシ型
 
@@ -178,8 +177,7 @@ f:id:y_uuki:20150630020900p:image
 プロキシ型では、アプリケーションサーバとプロキシの間は都度接続でもよい。
 したがって、Perlのようにドライバ型のコネクションプーリングの実装がほとんどないような言語でも、コネクションプーリングが使えるというメリットがある。
 
-(プロキシ型)
-f:id:y_uuki:20150630020901p:image
+[f:id:y_uuki:20150630020901p:image]
 
 そもそも、Perlではまともなスレッドがないため、ほとんどのWebサーバがPreforkモデルである。Preforkモデルでコネクションプーリングしようとすると、各ワーカープロセス間でプールを共有するために、プールを保持する場所としてのプロセスが必要となる。無理やりコネクションプーリングを実装できないことはないと思う。しかし、１プロセスの中で完結するJVM言語とは事情が異なる。
 どのみち、専用プロセスが必要なら、プロキシ型のほうが汎用的に使えてよいということもあるかもしれない。
