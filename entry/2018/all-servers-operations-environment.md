@@ -5,7 +5,7 @@ Category:
 - Ansible
 - Docker
 Date: 2018-01-29T09:40:43+09:00
-URL: http://blog.yuuk.io/entry/2018/all-servers-operations-environment
+URL: https://blog.yuuk.io/entry/2018/all-servers-operations-environment
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8599973812341703119
 ---
 
@@ -28,13 +28,11 @@ EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/859997
 しかし、playbookの開発にはオペレーションサーバではなくローカル環境を用いるため、ローカル環境とオペレーションサーバ環境の差異を小さくできるほうがよい。
 そこで、Dockerを用いて、ローカルとオペレーションサーバ共通の環境を構築する。
 
-# アーキテクチャと実装
+# システム構成
 
-## アーキテクチャ
-
-アーキテクチャを図1に示す。
-[f:id:y_uuki:20180128215001p:image:title="図１: アーキテクチャ"]
-図１: アーキテクチャ
+システム構成を図1に示す。
+[f:id:y_uuki:20180128215001p:image:title="図１: システム構成"]
+図１: システム構成
 
 単一サーバから命令を各サーバへ送信するPull型のイベント送信モデルになる。
 ローカル -> オペレーションサーバ -> 対象ホストの流れに沿ってSSHログインする。
@@ -42,7 +40,6 @@ EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/859997
 対象ホスト一覧は、ホストインベントリ(Mackerel)のAPIから取得し、フィルタ([Ansibleのfilter](http://docs.ansible.com/ansible/latest/playbooks_filters.html))により、除外パターンを記述できる。
 Ansibleそのものとplaybook、スクリプトなどが入ったDockerイメージをコンテナリポジトリ(ECR)にPUSHし、オペレーションサーバ上でPULLしておく。
 
-## ヘルパースクリプト
 
 運用観点では、オペレーションサーバのホスト名、Dockerイメージ名、コンテナ名などを覚えてオペレーションはしたくない。
 そこで、ヘルパースクリプト [yuuki/ansible-operation-helper](https://github.com/yuuki/ansible-operation-helper) を参考のため公開している。これは社内事情を吸収するための層になるため、汎用的ではなく、そのまま動くわけではない。
@@ -53,9 +50,9 @@ Ansibleそのものとplaybook、スクリプトなどが入ったDockerイメ�
 - `bin/on_remote_container`: オペレーションサーバ上のDockerコンテナにて、引数指定したコマンドを実行する。
 - `libexec/mackerel.rb`: Mackerel用のAnsible Dynamic Inventory。
 
-## 工夫
+# 実装上の工夫
 
-### オペレーションサーバ越しのroot権限実行
+## オペレーションサーバ越しのroot権限実行
 
 一斉にOSのパッケージを更新したいなど、コマンドをroot権限で実行したいことはケースはたくさんある。
 Ansibleでは、[Become](http://docs.ansible.com/ansible/latest/become.html)により、対象ホストにてコマンドをsudo/suを用いて、インタラクティブパスワード入力でroot権限実行できる。
@@ -77,7 +74,7 @@ agent forwardingは、セキュリティポリシー上、問題ないか確認�
 ヘルパーツールでは、agent forwardingをむやみに利用しないように、`on_remote`ラッパー実行時のみ、
 forwardingを有効するために、-Aオプションを用いている。[参考](https://github.com/yuuki/ansible-operation-helper/blob/0780b39e36ed0ea5818026ff8ab84e05bbf28936/bin/on_remote#L15)
 
-### rawモジュールとscriptモジュールのみの利用
+## rawモジュールとscriptモジュールのみの利用
 
 本格的なサーバ構成管理をするわけではないため、シェルスクリプトを実行できれば十分だ。
 Ansibleには[rawモジュール](http://docs.ansible.com/ansible/latest/raw_module.html)や[scriptモジュール](http://docs.ansible.com/ansible/latest/script_module.html)があり、シェルスクリプトを実行できる。
@@ -85,7 +82,7 @@ rawモジュールとscriptモジュールのメリットは、対象ホスト�
 例えば、Ansible 2.4からPython 2.4/2.5のサポートが切られた((https://github.com/ansible/ansible/issues/33101#issuecomment-345802554))ため、CentOS 5ではepelからpython 2.6をインストールして使うなどの手間が増える。[Ansible 2.4 upgrade and python 2.6 on CentOS 5
 ](https://stackoverflow.com/questions/46480621/ansible-2-4-upgrade-and-python-2-6-on-centos-5)
 
-### Ansibleの実行ログのGit保存
+## Ansibleの実行ログのGit保存
 
 どのサーバに対してオペレーションしたかを記録するため、ログをとっておくことは重要だ。
 CTO motemenさんの [furoshiki2](https://github.com/motemen/furoshiki2)を用いて、Ansibleのコマンド実行ログをGit保存している。
