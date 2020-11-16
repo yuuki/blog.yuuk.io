@@ -12,6 +12,8 @@ URL: https://blog.yuuk.io/entry/linux-networkstack-tuning-rfs
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450089846829
 ---
 
+本記事の公開後の2016年7月にはてなにおけるチューニング事例を紹介した。 [https://speakerdeck.com/yuukit/linux-network-performance-improvement-at-hatena:title:bookmark]
+
 HAProxy や nginx などのソフトウェアロードバランサやリバースプロキシ、memcached などの KVS のような高パケットレートになりやすいネットワークアプリケーションにおいて、単一の CPU コアに負荷が偏り、マルチコアスケールしないことがあります。
 今回は、このようなネットワークアプリケーションにおいて CPU 負荷がマルチコアスケールしない理由と、マルチコアスケールさせるための Linux カーネルのネットワークスタックのチューニング手法として RFS (Receive Flow Steering) を紹介します。
 
