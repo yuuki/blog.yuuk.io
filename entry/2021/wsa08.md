@@ -7,11 +7,14 @@ Draft: true
 CustomPath: 2021/wsa08
 ---
 
-| 著者 | [坪内 佑樹](https://twitter.com/yuuk1t)(\*1), [古川 雅大](https://twitter.com/yoyogidesaiz)(\*2), [松本 亮介](https://twitter.com/matsumotory)(\*1) |
-|:-----|:-----------------------------------------|
-| 所属 | (\*1) さくらインターネット株式会社 さくらインターネット研究所、(\*2) 株式会社はてな |
-| 研究会 | [第8回Webシステムアーキテクチャ研究会](https://wsa.connpass.com/event/207143/) |
+この記事は、分散アプリケーションを構成するネットワークサービス間の依存関係マップを構築するための基礎技術の改善提案をまとめたものである。第8回WebSystemArchitecture研究会での発表と同等の内容であり、以下にスライドを掲載しておく。
 
+[https://speakerdeck.com/yuukit/low-overhead-tcp-udp-tracing-in-kernel:embed]
+
+また、本手法のプロトタイプと評価実験のためのコードを次のGitHubリポジトリに公開している。
+
+[https://github.com/yuuki/go-conntracer-bpf:embed]
+[https://github.com/yuuki/shawk-experiments:embed]
 ## 1. はじめに
 
 クラウドの普及により、サービス事業者は機能追加やアクセス増加への対応が容易となっている。その一方で、クラウド上に展開される分散アプリケーション内の構成要素の個数と種類が増加しているため、構成要素の依存関係が複雑化している。そのため、システム管理者が、システムを変更するときに、変更の影響範囲を特定できず、想定よりも大きな障害につながりうる。よって、システム管理者の手によらず、ネットワークサービス（ネットワーク通信するOSプロセス）の依存を自動で発見することが望ましい。
@@ -163,6 +166,10 @@ TBD
 
 クラウド上に展開された分散アプリケーションを構成するネットワークサービス間の依存を低オーバヘッドで発見するために、TCP/UDPのフローをカーネル内で集束するためのカーネル内フロー集束法を提案した。カーネル内フロー集束法は、TCPの短命接続と持続的接続のいずれの方式が利用されたアプリケーションであっても、低オーバヘッドでフローを追跡可能である。実験の結果、カーネル内フロー集束法は、1,000個以下の数のネットワークサービスへの通信であっても、CPU負荷が2.2%以下を維持できていることを確認した。また、アプリケーションに与える遅延オーバヘッドは、ラウンドトリップあたり最大でも6マイクロ秒程度であった。
 
+今後は、本手法を活用し、フローデータを永続化するためのトレーシングアプリケーションの開発を進めていきたい。
+## あとがき
+
+昨年末にeBPFを学び始めてから、以前の研究にeBPFならではの改善を加えて発展させるとこんな研究になった。アイデアとしてはナイーブではあるけど、既存の論文やツールに対する小さな貢献をちゃんと示せたようには思う。この研究の経験を踏まえて、eBPFの概要からBPFトレーシングツールの実装に至るまでのガイドラインとなるような記事を執筆中なのでお楽しみに。
 ## 参考文献
 
 - <b id="f1">[1]</b>: Chen, P., Qi, Y., Zheng, P. and Hou, D.: CauseInfer: Automatic and Distributed Performance Diagnosis with Hierarchical Causality Graph in Large Distributed Systems, IEEE Conference on Computer Communications (INFOCOM), pp. 1887–1895 (2014).
@@ -172,3 +179,10 @@ TBD
 - <b id="f5">[5]</b>: Datadog, Inc.: Datadog Network Performance Monitoring, <https://docs.datadoghq.com/networkmonitoring/performance/>
 - <b id="f6">[6]</b>: Sigelman, B. H., Barroso, L. A., Burrows, M., Stephenson, P., Plakal, M., Beaver, D., Jaspan, S. and Shanbhag, C.: Dapper, a Large-Scale Distributed Systems Tracing Infrastructure, Technical report, Google (2010).
 - <b id="f7">[7]</b>: The OpenTelemetry Authors: OpenTelemetry, <https://opentelemetry.io/>.
+
+---
+
+| 著者 | [坪内 佑樹](https://twitter.com/yuuk1t)(\*1), [古川 雅大](https://twitter.com/yoyogidesaiz)(\*2), [松本 亮介](https://twitter.com/matsumotory)(\*1) |
+|:-----|:-----------------------------------------|
+| 所属 | (\*1) さくらインターネット株式会社 さくらインターネット研究所、(\*2) 株式会社はてな |
+| 研究会 | [第8回Webシステムアーキテクチャ研究会](https://wsa.connpass.com/event/207143/) |
