@@ -1,15 +1,15 @@
 ---
-Title: "Facebookの数千台規模のmemcached運用について"
+Title: Facebookの数千台規模のmemcached運用について
 Category:
 - memcached
 Date: 2014-07-09T09:30:00+09:00
-URL: http://blog.yuuk.io/entry/facebook-memcached-paper
+URL: https://blog.yuuk.io/entry/facebook-memcached-paper
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/12921228815727749940
 ---
 
 [http://yuuki.hatenablog.com/entry/dsync-paper:title:bookmark]の続きとして、Facebook の memcached 運用に関する論文を読んだ。
 タイトルなどは以下の通り。
-NSDI はネットワークシステムに関する(多分)準トップレベルのカンファレンス。
+NSDI はネットワークシステムに関するトップレベルのカンファレンス。
 
 - Scaling Memcache at Facebook
   - Rajesh Nishtala, Hans Fugal, Steven Grimm, Marc Kwiatkowski, Herman Lee, Harry C. Li, Ryan McElroy, Mike Paleczny, Daniel Peek, Paul Saab, David Stafford, Tony Tung, Venkateshwaran Venkataramani

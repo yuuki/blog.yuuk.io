@@ -3,16 +3,14 @@ Title: Linux eBPFトレーシング技術の概論とツール実装
 Category:
 - eBPF
 - Tracing
-Date: 2021-12-28T16:16:58+09:00
+Date: 2021-12-28T16:50:58+09:00
 URL: https://blog.yuuk.io/entry/2021/ebpf-tracing
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/13574176438046968896
-Draft: true
-CustomPath: 2021/ebpf-tracing
 ---
 
 eBPF（extended Berkley Packet Filter）という用語を著者が初めてみかけたのは、2015年ごろだった。最初は、eBPFをその字面のとおり、パケットキャプチャやパケットフィルタリングを担うだけの、Linuxの新しいサブシステムであろうと認識していた。しかし、実際にはそうではなかった。
 
-システム性能の分析のための方法論をまとめた書籍Systems Performance<sup id="a1">[1](#f1)</sup>の著者で有名なBrendan Greggが、Linuxのネットワークサブシステムとは特に関係ない文脈で、古典的なシステム性能計測ツールでは計測できないことを計測するツールを作っていた。その計測ツールがeBPFという技術によって実装されていることを知ったときに、eBPFに興味をもったのだった。また、eBPFは、システム性能を調べる用途以外にXDP（eXpress Data Path）と呼ばれるプログラマブルなパケット処理機構を備えている。10年近く前に、Linuxカーネルのパケット処理機構を扱っていたことがあった(([超高速なパケットI/Oフレームワーク netmap について - ゆううきブログ](https://blog.yuuk.io/entry/2013/08/03/162715)、[GPUを用いたSSLリバースプロキシの実装について - ゆううきブログ](https://blog.yuuk.io/entry/2013/04/17/171230)、[Linuxでロードバランサやキャッシュサーバをマルチコアスケールさせるためのカーネルチューニング - ゆううきブログ](https://blog.yuuk.io/entry/linux-networkstack-tuning-rfs))）ことから、より興味を引き立てられた。
+システム性能の分析のための方法論をまとめた書籍Systems Performance <sup id="a1">[1](#f1)</sup> の著者で有名なBrendan Greggが、Linuxのネットワークサブシステムとは特に関係ない文脈で、古典的なシステム性能計測ツールでは計測できないことを計測するツールを作っていた。その計測ツールがeBPFという技術によって実装されていることを知ったときに、eBPFに興味をもったのだった。また、eBPFは、システム性能を調べる用途以外にXDP（eXpress Data Path）と呼ばれるプログラマブルなパケット処理機構を備えている。10年近く前に、Linuxカーネルのパケット処理機構を扱っていたことがあった (([超高速なパケットI/Oフレームワーク netmap について - ゆううきブログ](https://blog.yuuk.io/entry/2013/08/03/162715)、[GPUを用いたSSLリバースプロキシの実装について - ゆううきブログ](https://blog.yuuk.io/entry/2013/04/17/171230)、[Linuxでロードバランサやキャッシュサーバをマルチコアスケールさせるためのカーネルチューニング - ゆううきブログ](https://blog.yuuk.io/entry/linux-networkstack-tuning-rfs)))ことから、より興味を引き立てられた。
 
 このように、6年以上前からeBPFに興味はあったものの、当時扱っていたシステムのLinuxカーネルバージョンは、eBPFをサポートしていなかったため、本格的にeBPFを学習しようとはしてこなかった。
 
@@ -25,6 +23,7 @@ eBPF（extended Berkley Packet Filter）という用語を著者が初めてみ�
 （extended BPFの正式略称はBPFであるため、以降では書き分ける必要がない限りBPFと表記する。）
 
 [:contents]
+
 
 ## BPFとはなにか
 
@@ -62,7 +61,7 @@ BPFの位置付けを整理したところで、次はBPFトレーシングを�
 
 BPFは狭義にはLinuxカーネルに含まれる**BPF仮想マシン**を指す。BPF仮想マシンは、[BPF用の独自の命令セット](https://github.com/iovisor/bpf-docs/blob/master/eBPF.md)で表現されたコード（**BPFバイトコード**）を解釈し、カーネルが動作するプロセッサに適したネイティブ命令に変換し、カーネルにロードする。ロードされたBPFプログラムは、指定されたイベントが発生するたびに実行される。
 
-既存のソフトウェアをユーザーが拡張するために仮想マシンを組み込み、ユーザー定義のコードを解釈するような機構は他でもみられる。例えば、RedisはLuaの仮想マシンを組み込んでおり、ユーザーがLuaで独自のコマンドを定義できる。さらに、今日のより先進的な技術にWeb Assemblyがある。
+既存のソフトウェアをユーザーが拡張できるようにするために仮想マシンを組み込み、ユーザー定義のコードを解釈するような機構は他でもみられる。例えば、RedisはLuaの仮想マシンを組み込んでおり、ユーザーがLuaで独自のコマンドを定義できる。さらに、今日のより先進的な技術にWeb Assemblyがある。
 
 BPFバイトコードは、一般に、制約付きのC言語で記述されたBPFプログラムからLLVM/Clangコンパイラにより生成される。BPFバイトコードは、ユーザー空間から[bpf(2)](https://man7.org/linux/man-pages/man2/bpf.2.html)システムコールにより、カーネルに渡される。カーネルはBPFの検証器（**BPF Verifier**）を使用して、BPFバイトコードがカーネルをクラッシュさせずに安全に実行可能かを検証する。検査結果に問題がなければ、BPFバイトコードは**JIT（Just in Time）コンパイラ**によりネイティブ命令によるマシンコードに変換される。このアーキテクチャによる恩恵は、BPFプログラムをロードするためにカーネルを再起動する必要がないことだ。
 
@@ -260,6 +259,8 @@ size_t count;
 ### 2. BCCによるプロトタイピング
 
 bccリポジトリ内の性能分析ツールが非推奨になったとはいえ、BCCはプロトタイピングに有用だ。BCCであれば、BPFプログラムとフロントエンドプログラムの両方を1枚のスクリプト内に収められるため、試行錯誤を速められる。例えば、BPFプログラムはPythonの文字列として記述されるため、フロントエンドへの入力に応じて、文字列処理で簡単にBPFプログラムを動的生成できる。mapへのアクセスも、libbpfを直接使うより簡単に書ける。 BCCの機能は、[BCCのリファレンスガイド](https://github.com/iovisor/bcc/blob/master/docs/reference_guide.md)に整理されている。
+
+id:chikuwait:detail さんの[「おいしくてつよくなる」eBPFのはじめかた](https://speakerdeck.com/chikuwait/learn-ebpf)の中盤から終盤にかけて、Hello World、TCPコネクションのトレース、コンテナ判定を題材として、BCCによるプログラミングのステップが図解されている。
 
 著者はいきなり最終ステップであるlibbpf + CO-REから書き始めたが、一旦BCCでプロトタイプを作成したのちに、libbpf + CO-REで実装すればよかったと後悔した。
 
