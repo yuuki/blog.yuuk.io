@@ -97,9 +97,9 @@ RPS の発展した実装が RFS なので、実質 RSS と RFS ということ�
 RSS/RPS/RFS については、[https://www.kernel.org/doc/Documentation/networking/scaling.txt:title=Scaling in the Linux Networking Stack] が詳しいです。
 RPS/RFS は Linux カーネル 2.6.35 以降で実装されていますが、RHLE 系は 5.9 ぐらい以降でバックポートされていたと思います。
 
-他にも、論文ベースでは、[1][A Transport-Friendly NIC for Multicore/Multiprocessor Systems] や [2][mTCP: a Highly Scalable User-level TCP Stack for Multicore Systems] など、ネットワークスタックを高速化させるための様々な手法が提案されています。
+他にも、論文ベースでは、[1][ATransport-FriendlyNICforMulticore/MultiprocessorSystems] や [2][mTCP: a Highly Scalable User-level TCP Stack for Multicore Systems] など、ネットワークスタックを高速化させるための様々な手法が提案されています。
 
-[1]: http://www.computer.org/csdl/trans/td/2012/04/ttd2012040607-abs.html "A Transport-Friendly NIC for Multicore/Multiprocessor Systems"
+[1]: http://www.computer.org/csdl/trans/td/2012/04/ttd2012040607-abs.html "ATransport-FriendlyNICforMulticore/MultiprocessorSystems"
 [2]: http://shader.kaist.edu/mtcp/ "mTCP: a Highly Scalable User-level TCP Stack for Multicore Systems"
 
 ## RSS（Receive Side Scaling)
