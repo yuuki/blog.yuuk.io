@@ -5,7 +5,7 @@ Category:
 - DataBase
 - TSDB
 Date: 2018-05-17T22:23:00+09:00
-URL: http://blog.yuuk.io/entry/2018/heterotsdb-architecture
+URL: https://blog.yuuk.io/entry/2018/heterotsdb-architecture
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/17391345971641467584
 ---
 
@@ -93,7 +93,7 @@ Diamondアーキテクチャの動作フローを以下に示す。
          |  flush                  \
          v                          v
 +-----------------+              +-------------+
-| オンSS分散KVS  | -----------> | reader node | ---> read path
+| オンSSD分散KVS  | -----------> | reader node | ---> read path
 +-----------------+              +-------------+
          |  export                  ^
          v                         /

@@ -10,6 +10,11 @@ URL: https://blog.yuuk.io/entry/go-and-mysql-jobqueue
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450076145676
 ---
 
+【追記】2023年3月21日
+[YAPC::Kyoto 2023](https://yapcjapan.org/2023kyoto/)で、ジョブキューシステムFireworqの設計と運用実績も含めて発表されました。id:tarao:detail ++
+
+[https://speakerdeck.com/tarao/fireworq:embed]
+
 【加筆修正】 2020年2月16日
 執筆時から6年も経過していますが、たまたまこの記事を振り返る機会があったので、日本語がおかしいところを一部修正したり、一緒に取り組んだ方々の名前が書かれていなかったところを修正しました。
 

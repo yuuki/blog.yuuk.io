@@ -207,7 +207,7 @@ BPFトレーシングを学ぶためのプロセスが、Greggの次の記事で
 
 書籍<sup id="a2">[2](#f2)</sup>のPart Ⅱ: Using BPF toolsの各章末にトレーシングに関する練習問題が挙げられており、一部の問題は指示されたツールの開発である。この問題に取り組んでみるのもいいかもしれない。例えば、8.5 "Optional Exercises"のリストの3-7番目はツール開発の問題である。そのうちの4番目がおもしろそうなので、以下に引用しておく。
 
-> 4. Develop a tool to show the ratio of logical file system I/O (via VFS or the file system interface) vs physical I/O (via block tracepoints).
+> "4. Develop a tool to show the ratio of logical file system I/O (via VFS or the file system interface) vs physical I/O (via block tracepoints)."
 
 ### 1. トレーシング対象の発見
 
@@ -260,7 +260,7 @@ size_t count;
 
 bccリポジトリ内の性能分析ツールが非推奨になったとはいえ、BCCはプロトタイピングに有用だ。BCCであれば、BPFプログラムとフロントエンドプログラムの両方を1枚のスクリプト内に収められるため、試行錯誤を速められる。例えば、BPFプログラムはPythonの文字列として記述されるため、フロントエンドへの入力に応じて、文字列処理で簡単にBPFプログラムを動的生成できる。mapへのアクセスも、libbpfを直接使うより簡単に書ける。 BCCの機能は、[BCCのリファレンスガイド](https://github.com/iovisor/bcc/blob/master/docs/reference_guide.md)に整理されている。
 
-id:chikuwait:detail さんの[「おいしくてつよくなる」eBPFのはじめかた](https://speakerdeck.com/chikuwait/learn-ebpf)の中盤から終盤にかけて、Hello World、TCPコネクションのトレース、コンテナ判定を題材として、BCCによるプログラミングのステップが図解されている。
+id:chikuwa_it:detail さんの[「おいしくてつよくなる」eBPFのはじめかた](https://speakerdeck.com/chikuwait/learn-ebpf)の中盤から終盤にかけて、Hello World、TCPコネクションのトレース、コンテナ判定を題材として、BCCによるプログラミングのステップが図解されている。
 
 著者はいきなり最終ステップであるlibbpf + CO-REから書き始めたが、一旦BCCでプロトタイプを作成したのちに、libbpf + CO-REで実装すればよかったと後悔した。
 
@@ -270,7 +270,7 @@ Nakryikoによる[Building BPF applications with libbpf-bootstrap](https://nakry
 
 BPFは開発が活発なため、カーネルの細かなバージョンごとに利用可能な機能に差異がある。[BPFの機能とカーネルバージョンとの対応表](https://github.com/iovisor/bcc/blob/master/docs/kernel-versions.md)があるため、サポートするカーネルバージョンを決めてからどの機能を利用するかを見当するとよい。
 
-余談だが、CO-REの機構を使わずに、異なるカーネルバージョンに対応する方法もなくはない。[weaveworks/tcptracer-bpf](https://github.com/weaveworks/tcptracer-bpf)では、既知のパラメータ（既知のIPアドレスやポートなど）で一連のTCP接続を作成し、それらのパラメータがカーネルのstruct sock構造体のフィールドオフセットを検出している。[datadog-agent](https://github.com/DataDog/datadog-agent)でも
+余談だが、CO-REの機構を使わずに、異なるカーネルバージョンに対応する方法もなくはない。[weaveworks/tcptracer-bpf](https://github.com/weaveworks/tcptracer-bpf)では、既知のパラメータ（既知のIPアドレスやポートなど）で一連のTCP接続を作成し、それらのパラメータがカーネルのstruct sock構造体のフィールドオフセットを検出している。
 
 ### Go言語によるBPFプログラミング
 
@@ -326,7 +326,7 @@ Go + BPFについては、次の記事にも整理されている。
 
 冒頭で述べたように、研究開発向けに着想した手法を実装するために、BPFを学習する必要があった。OSに近しい低レイヤのプログラミングは好きではあるものの、得意というほどでもないため、それなりの学習コストがあった。C言語は8年ぶりぐらいに書いたように思う。BPFのC言語は制約が強く、コードに明らかな欠陥があればBPF Verifierが検出してくれるため、C言語自体にはそれほど苦労しなかった。カーネルのコードのどの箇所をフックするか、どの変数から必要なデータを読み出すかといったコードの理解により苦労した。
 
-今年の前半にBPFの話を仲間内でしていたら、[@deeeet](https://twitter.com/deeeet)と[@rrreeeyyy](https://twitter.com/rrreeeyyy)がホストするe34.fmに出演させてもらった。このときに、BPFの基本と応用例をそれなりに調査していたので、そのうち、テキストにまとめようと思ったものの、そのままになっていた内容を今年のうちにまとめることができてよかった。e34.fmでは触れらなかったBPFトレーシングの実装に踏み込んだ話も整理できた。
+今年の前半にBPFの話を仲間内でしていたら、[@deeeet](https://twitter.com/deeeet)くんと[@rrreeeyyy](https://twitter.com/rrreeeyyy)くんがホストするe34.fmに出演させてもらった。このときに、BPFの基本と応用例をそれなりに調査していたので、そのうち、テキストにまとめようと思ったものの、そのままになっていた内容を今年のうちにまとめることができてよかった。e34.fmでは触れらなかったBPFトレーシングの実装に踏み込んだ話も整理できた。
 
 今年の春頃から、前職の同僚たちによるBPF Performance Tools<sup id="a2">[2](#f2)</sup>の輪読会に参加させてもらっている。この本の後半は、CPU・メモリ・ファイルシステム・ディスク・ネットワークについて、BCCの性能分析ツールがひたすらに紹介されている。ひとつずつ読んでいくのが苦行に感じてはいるものの、BPFトレーシングでどういうことができるのか、トレーシング結果の表示形式、トレーシングのオーバヘッド、kprobeとtracepointのそれぞれにアタッチしたときの利点と欠点の肌感をおかげで掴めつつある。（Thanks to id:masayoshi:detail, id:dekokun:detail, id:hokkai7go:detail, id:hayajo_77:detail）
 

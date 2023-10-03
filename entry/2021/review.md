@@ -2,8 +2,9 @@
 Title: 2021年の研究回想
 Category:
 - 日記
-Draft: true
-CustomPath: 2021/review
+Date: 2021-12-31T23:45:00+09:00
+URL: https://blog.yuuk.io/entry/2021/review
+EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/13574176438048121587
 ---
 
 この年末は、ブログ記事をしたためながら、大阪の新オフィスで受領したM1 MacBook Proをセットアップしながら過ごしている。京都では寒波が厳しく、底冷えするような寒さがあり、天気予報で予報されている気温よりも寒く感じる。大晦日に実家に帰り、年始に祖父の家に顔を出す。
@@ -154,3 +155,5 @@ Topotalさんのオフィスへ出張させてもらった。一昨年のIOTS201
 - [忘年した2012年の記憶を掘り起こして忘年意味ないみたいな感じになった - ゆううきブログ](https://blog.yuuk.io/entry/think-back-to-2012)
 
 来年もよろしくおねがいします。
+
+

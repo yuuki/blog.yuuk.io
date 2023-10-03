@@ -8,7 +8,7 @@ EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/102578
 ---
 
 この記事では、自分が数年[Site Reliability Engineering (SRE)](https://landing.google.com/sre/)を実践しつつ、SREについて考えてきたことをまとめる。
-先月開催された[Mackerel Drink Up #8 Tokyo](https://mackerelio.connpass.com/event/106805/)と先日開催された[次世代Webカンファレンス 2019](https://blog.jxck.io/entries/2018-09-15/next-web-conf-2019.html)では、SREについて集中的に議論する機会に恵まれたため、脳内メモリにキャッシュされているうちにを文章としてまとめておこうと考えた。
+先月開催された[Mackerel Drink Up #8 Tokyo](https://mackerelio.connpass.com/event/106805/)と先日開催された[次世代Webカンファレンス 2019](https://blog.jxck.io/entries/2018-09-15/next-web-conf-2019.html)では、SREについて集中的に議論する機会に恵まれたため、脳内メモリにキャッシュされているうちに、SREに関する私的な論考をまとめておく。
 
 (以降では、SRE本の原著にならい、技術領域名を指すときはSRE、職種名を指すときにSREsと表記する。)
 

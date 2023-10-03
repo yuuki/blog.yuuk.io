@@ -11,6 +11,9 @@ URL: https://blog.yuuk.io/entry/2015-webserver-architecture
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/8454420450095701405
 ---
 
+**2023年03月31日追記**：この記事を基に、[@sadnessOjisan](https://twitter.com/sadnessOjisan)さんより、コードレベルにより踏み込んだ、かつ、グリーンスレッドベースの新しいWebサーバアーキテクチャも含めて整理された記事 [https://blog.ojisan.io/server-architecture-2023/:title] が公開されました。
+
+
 主に新卒のWebエンジニア向けに、古典的なWebサーバアーキテクチャを学ぶ道のりと代表的な実装モデルの概要を紹介します。
 
 この辺りの話題がWeb界隈で流行っていたのは数年以上前というイメージですが、Webサービスは相変わらずWebサーバの上で動いているので、流行り廃り関係なく学ぶべき内容だと思っています。
