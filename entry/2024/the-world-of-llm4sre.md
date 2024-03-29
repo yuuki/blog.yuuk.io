@@ -4,11 +4,9 @@ Category:
 - SRE
 - LLM
 - 研究
-Date: 2024-03-20T22:57:47+09:00
+Date: 2024-03-21T09:00:00+09:00
 URL: https://blog.yuuk.io/entry/2024/the-world-of-llm4sre
 EditURL: https://blog.hatena.ne.jp/y_uuki/yuuki.hatenablog.com/atom/entry/6801883189092352135
-Draft: true
-CustomPath: 2024/the-world-of-llm4sre
 ---
 
 ChatGPTが登場した当初、対話や要約、翻訳、コード生成などの典型的な言語タスクができても、SREやAIOpsの研究開発にはあまり関係ないのではないかと正直思っていた。AIOpsでは典型的にはいわゆるObservabilityデータ（メトリクス、ログ、トレースなど）が入力となるため、自然言語ではなく数値のデータを解析することが求められる。自然言語のタスクを研究対象としていなかったため、AIOpsとChatGPTに強い関係性は見いだせなかった((ちょうど１年前にGPT-4が公開された際に、メトリクスの数値列をプロンプトに含めて遊んでみたときの印象はこちら <https://twitter.com/yuuk1t/status/1636758804535869442?s=20>。))。
@@ -25,8 +23,7 @@ SREでは、オンラインサービスのテレメトリデータ（メトリ�
 
 GPTに代表されるLLMの目覚ましい進歩により、一つのモデルが様々なドメインの、様々な下流タスクを解決できるようになってきている。また、LLMの知識だけでなく、LLMがもつ世界理解と世界理解に基づく汎用的な推論能力の高さも注目されている。一方で、SREのドメインでは、LLMは、SREの一般的知識を公開文書やコードなどから事前に獲得しているものの、SREの専門家ほどの細部の知識はない。特に企業内で管理されている産業秘匿データ（テレメトリデータやインシデントデータ）を当然ながら学習していない。そのため、グローバルな学習データに基づくその汎用的な知的能力を基に、ローカルなドメイン知識も加えてLLMに学習させる必要がある。
 
-
-（図１：LLMによる原因診断論文の発表タイムライン）
+<figure class="figure-image figure-image-fotolife" title="図１：LLMによる原因診断論文の発表タイムライン">[f:id:y_uuki:20240320231010p:plain]<figcaption>図１：LLMによる原因診断論文の発表タイムライン</figcaption></figure>
 
 ソフトウェアエンジニアリングの分野においても、プログラムコードの生成を中心にLLMの活用が進んできている。ソフトウェアエンジニアリングの一分野であるSRE（Site Reliability Engineering）の分野では、LLMに基づくSREへのアプローチ、特にクラウド上に展開されるシステムに発生する障害診断をLLMにより自動化するアプローチが研究されている。図１にLLMに基づく障害診断法を提案する論文が最初に発表された時期を次の図に時系列順にプロットした。2022年11月のChatGPTのローンチ後に次々とLLM4SREの障害管理をテーマとする論文が発表されている。
 
@@ -58,21 +55,21 @@ OpenAI APIには、gpt-3.5-turboやgpt-4(experimental)を対象としたInstruct
 	- Zero-Shot Chain-of-Thought：Few-Shotの事例なしで、単に"Let's think step by step."とプロンプトに指示を追加するだけでCoTを実現する手法である。（”Large Language Models are Zero-Shot Reasoners”, NeurIPS2022）[Chain-of-Thought Prompting | Prompt Engineering Guide](https://www.promptingguide.ai/techniques/cot#zero-shot-cot-prompting)
 - **Self Consistency（自己無矛盾性）**: 複数のプロンプトや推論結果の整合性を評価し、最も無矛盾な結果を多数決で選択することで、LLMの出力の一貫性を高める手法である。CoTの推論能力を改善する。（“Self-Consistency Improves Chain of Thought Reasoning in Language Models”, ICLR2023）[Self-Consistency | Prompt Engineering Guide\<!-- --\>](https://www.promptingguide.ai/techniques/consistency)
 
-### 拡張言語モデル（Augumented Language Model: ALM）
+### 拡張言語モデル（Augmented Language Model: ALM）
 
 拡張言語モデルには、次の検索ベースのモデルとツールベースのモデルがある。
 
-**Retrieval Augumented Laguage Models（検索拡張言語モデル）** は、LLMの推論時に、外部の知識源（Wikipediaや社内文書など）から関連する情報を検索し、言語モデルに提示する手法である。特に、検索した文書を元の入力に結合してコンテキストとして入力する手法を**RAG（Retrieval Augmented Generation）** と呼ぶ。（"In-Context Retrieval-Augmented Language Models", 2023） [Retrieval Augmented Generation (RAG) | Prompt Engineering Guide\<!-- --\>](https://www.promptingguide.ai/techniques/rag)
+**Retrieval Augmented Laguage Models（検索拡張言語モデル）** は、LLMの推論時に、外部の知識源（Wikipediaや社内文書など）から関連する情報を検索し、言語モデルに提示する手法である。特に、検索した文書を元の入力に結合してコンテキストとして入力する手法を**RAG（Retrieval Augmented Generation）** と呼ぶ。（"In-Context Retrieval-Augmented Language Models", 2023） [Retrieval Augmented Generation (RAG) | Prompt Engineering Guide\<!-- --\>](https://www.promptingguide.ai/techniques/rag)
 
 文書の検索には、外部テキストdからクエリqに類似した文書を見つけるための検索器（Retriever）を用いる。類似度の定義方法は様々あり、単語の出現頻度に基づくTF-IDFや、テキストdとクエリqの各埋め込み（Embedding）ベクトル間のコサイン類似度などがその代表である。
 
-**Tool Augumented Langage Models（ツール拡張言語モデル）** は、LLMが知識ではなく外部ツールと連携し、生成を修正・補強する、またはエージェントを操作するなどにより、タスクを遂行する手法である。外部ツールとしては、検索、コード、API、異種モデルなどがある。ツール拡張言語モデルとしてToolFormerやReActなどが有名である。
+**Tool Augmented Langage Models（ツール拡張言語モデル）** は、LLMが知識ではなく外部ツールと連携し、生成を修正・補強する、またはエージェントを操作するなどにより、タスクを遂行する手法である。外部ツールとしては、検索、コード、API、異種モデルなどがある。ツール拡張言語モデルとしてToolFormerやReActなどが有名である。
 
 - **ToolFormer**: どのAPIを呼び出すか、いつ呼び出すか、どの引数を渡すか、そしてその結果をどのように将来のトークン予測に反映させるかを決定するために学習するモデルである。（“ToolFormer” Language Models Can Teach Themselves to Use Tools”, 2023）
 - **ReAct**: Reasoning（推論）とAction（行動）を交互に繰り返すことで、LLMに複雑なタスクを自律的に遂行させるフレームワークである。例えば、質問に答えるために必要な情報を外部ツールで検索したり、途中の計算結果を利用したりしながら、段階的に回答を構築する。（“ReAct: Synergizing Reasoning and Acting in Language Models”, ICLR2023）[ReAct Prompting | Prompt Engineering Guide\<!-- --\>](https://www.promptingguide.ai/techniques/react)
 - **Reflexion**: 自己評価、自己反省、記憶のコンポーネントを導入することで、ReActフレームワークを拡張したものである。これによりLLMは過去の失敗から迅速かつ効果的に学習できる。（"Reflexion: Language Agents with Verbal Reinforcement Learning", 2023） [Reflexion | Prompt Engineering Guide\<!-- --\>](https://www.promptingguide.ai/techniques/reflexion)
 
-検索拡張言語モデルとツール拡張言語モデルは、外部の知識やツールにより言語モデルを拡張することに着目した用語である。一方で、拡張された能力を用いて、LLMが頭脳となり外部環境と相互作用しながら自律的に試行錯誤してタスクを実行することに着目した用語が**LLMエージェント**（LLM Agents: [LLM Agents | Prompt Engineering Guide](https://www.promptingguide.ai/research/llm-agents)）である。LLMエージェントは構築方法がフレームワーク化されている。LLMとプランニングやメモリ、ツール使用などの主要モジュールを組み合わせたアーキテクチャを使用する。この際、LLMはタスクやユーザ要求を完了するために必要な操作の流れを制御するメインコントローラまたは頭脳として機能する。 ReActとReflexionはLLMエージェントの一種である。
+検索拡張言語モデルとツール拡張言語モデルは、外部の知識やツールにより言語モデルを拡張することに着目した用語である。一方で、拡張された能力を用いて、LLMが頭脳となり外部環境と相互作用しながら自律的に試行錯誤してタスクを実行することに着目した用語が**LLMエージェント**（LLM Agents: [LLM Agents | Prompt Engineering Guide](https://www.promptingguide.ai/research/llm-agents)）である。LLMエージェントは構築方法がフレームワーク化されており、LLMとプランニングやメモリ、ツール使用などの主要モジュールを組み合わせる。この際、LLMはタスクやユーザ要求を完了するために必要な操作の流れを制御するメインコントローラまたは頭脳として機能する。ReActとReflexionはLLMエージェントの一種である。
 
 ## LLMによる障害診断法の分類
 
@@ -80,29 +77,29 @@ OpenAI APIには、gpt-3.5-turboやgpt-4(experimental)を対象としたInstruct
 
 まず、障害診断手法を、各手法が採用するLLMの要素技術に基づいて、ファインチューニングベース、検索拡張言語ベース、LLMエージェントベースの3種のグループに分類する。
 
-1) ファインチューニングベース：2022年11月にMicrosoft ResearchからLLM4SREでは初の研究[[Ahmed+,ICSE'23]](https://dl.acm.org/doi/abs/10.1109/ICSE48619.2023.00149)が公開された。 Microsoftの40,000件以上のインシデントのタイトルやサマリーなどのテキストデータを用いて、GPT-3.5をファインチューニングしている。2023年5月公開の[Oasis](https://dl.acm.org/doi/10.1145/3611643.3613891)は、個別具体的なシステムのドメイン用語を理解させるために、同じくGPT-3.5をファインチューニングすることにより、障害状況の要約文を自動で作成する。
+**1) ファインチューニングベース**：2022年11月にMicrosoft ResearchからLLM4SREでは初の研究[[Ahmed+,ICSE'23]](https://dl.acm.org/doi/abs/10.1109/ICSE48619.2023.00149)が公開された。 Microsoftの40,000件以上のインシデントのタイトルやサマリーなどのテキストデータを用いて、GPT-3.5をファインチューニングしている。2023年5月公開の[Oasis](https://dl.acm.org/doi/10.1145/3611643.3613891)は、個別具体的なシステムのドメイン用語を理解させるために、同じくGPT-3.5をファインチューニングすることにより、障害状況の要約文を自動で作成する。
 
-2) 検索拡張言語ベース：[[Zhang+,2024]](https://arxiv.org/abs/2401.13810)は、現在アクティブな障害に類似する過去の障害の文書を履歴から検索し、LLMのプロンプトにFew-Shotとして例示することで、アクティブな障害の説明テキストを入力として根本原因を予測させる。PACE-LMは障害履歴を基に予測させた根本原因がどの程度信頼できるかをキャリブレーションし、信頼度スコアを付与する。過去ではなく、今何が起きているか？を示すテレメトリデータも検索するアプローチとして、[RCACopilot](https://arxiv.org/abs/2305.15778)と[Panda](https://www.amazon.science/publications/panda-performance-debugging-for-databases-using-llm-agents)がある。
+**2) 検索拡張言語ベース**：[[Zhang+,2024]](https://arxiv.org/abs/2401.13810)は、現在アクティブな障害に類似する過去の障害の文書を履歴から検索し、LLMのプロンプトにFew-Shotとして例示することで、アクティブな障害の説明テキストを入力として根本原因を予測させる。PACE-LMは障害履歴を基に予測させた根本原因がどの程度信頼できるかをキャリブレーションし、信頼度スコアを付与する。過去ではなく、今何が起きているか？を示すテレメトリデータも検索するアプローチとして、[RCACopilot](https://arxiv.org/abs/2305.15778)と[Panda](https://www.amazon.science/publications/panda-performance-debugging-for-databases-using-llm-agents)がある。
 
-3) LLMエージェントベース：より発展的なアプローチとして、[[Roy+,2024]](https://arxiv.org/abs/2403.04123)、[RCAgent](https://arxiv.org/abs/2310.16340)、[D-Bot](https://arxiv.org/abs/2312.01454)などのLLMエージェントに基づく研究がある。エージェントベースのアプローチは、検索拡張に加えてツール拡張を備え、検索とツールの実行と推論を折り重ねることで、まるで人間のエンジニアが試行錯誤するかのように、障害原因を自律的に診断する。
+**3) LLMエージェントベース**：より発展的なアプローチとして、[[Roy+,2024]](https://arxiv.org/abs/2403.04123)、[RCAgent](https://arxiv.org/abs/2310.16340)、[D-Bot](https://arxiv.org/abs/2312.01454)などのLLMエージェントに基づく研究がある。エージェントベースのアプローチは、検索拡張に加えてツール拡張を備え、検索とツールの実行と推論を折り重ねることで、まるで人間のエンジニアが試行錯誤するかのように、障害原因を自律的に診断する。
 
 次に、その他の観点を含めた各論文の性質を以下の表にまとめる。各論文の「対象システム」、論文の手法が使用する「ドメイン固有データとツール」、「LLM技術」、「モデル」を整理する。
 
 |              文献名（手法名）               |       対象システム       |           タスク           |             ドメイン固有データとツール              |                        LLM技術                         |       使用する主なモデル       |     |
-| :---------------------------------: | :----------------: | :---------------------: | :------------------------------------: | :--------------------------------------------------: | :-------------------: | --- |
-|          [Ahmed+,ICSE'23]          |        クラウド        |       根本原因と緩和策の予測       |         インシデントの履歴。タイトルとサマリーのみ。         |                  Instruction Tuning                  |        GPT-3.5        |     |
-|        [Jin+,FSE'23] (Oasis)        |        クラウド        | 関連する複数のインシデントの要約テキストの生成 |         インシデントの履歴。手動作成の要約を含む。          |                  Instruction Tuning                  |    GPT-3 / GPT-3.5    |     |
-|           [Zhang+,2024]            |        クラウド        |         根本原因の予測         |               インシデントの履歴                |                    RAG + Few-Shot                    |         GPT-4         |     |
-|      [Zhang+,2023] (PACE-LM)       |        クラウド        |   予測された根本原因の信頼性スコアの計算   |               インシデントの履歴                |                    RAG + Few-Shot                    |         GPT-4         |     |
-| [Samanta+,CLOUD'23] (InsightsSumm) | クラウド /<br>アプリケーション |      障害の要約テキストの生成       |   アラート、トポロジー、ログ、メトリクス（Golden Signal）   |                       Few-Shot                       | ChatGPT / Flan T5 XXL |     |
-|  [Chen+,EuroSys'24] (RCACopilot)   |      メールサービス       |       根本原因カテゴリの予測       |        テレメトリ（メトリクス/ログ）、インシデント履歴        |                    RAG + Few-Shot                    |         GPT-4         |     |
-|    [Komal+,CASCON2023] (ADARMA)    |      マイクロサービス      |     障害の修復のためのコード生成      |       テレメトリ（メトリクス/ログ）、公開Runbook        |             Few-Shot, Instruction Tuning             |          NA           |     |
-|            [Roy+,2024]             |        クラウド        |         根本原因の予測         |        インシデント履歴と詳細、Runbook相当の文書        |                   LLMエージェント（ReAct）                   |         GPT-4         |     |
-|       [Wang+,2023] (RCAgent)       |        クラウド        |         根本原因の予測         |            非構造化データ（ログ/コード）             | Zero-Shot CoT, LLMエージェント（ReActの拡張）, Self-Consistency |        Vicuna         |     |
-|      [Hamadanian+,HotNets'23]      |       ネットワーク       |         緩和計画の生成         |         インシデントの情報とメタデータ（詳細不明）          |                      LLMエージェント                       |          NA           |     |
-|        [Zhou+,2023] (D-Bot)         |       データベース       | 症状、根本原因、緩和策を含む診断レポートの生成 |     データベース製品文書、pg_stat_statements、     |                 LLMエージェント, マルチエージェント                 |         GPT-4         |     |
-|        [Singh+,2024] (Panda)        |       データベース       | 症状、根本原因、緩和策を含む診断レポートの生成 |     Auroraのwaitイベント文書と250のDBメトリクス      |                         RAG                          |         GPT-4         |     |
-|      [Jiang+,ICSE'24] (Xpert)      |        クラウド        | テレメトリデータ分析用ドメイン固有言語の生成  | インシデント履歴（メタデータ、タイトル、概要、ディスカッション）、クエリ履歴 |                    Few-Shot + RAG                    |    GPT-3.5 / GPT-4    |     |
+| :---------------------------------: | :----------------: | :---------------------: | :------------------------------------: | :--------------------------------------------------: | :-------------------: | 
+|          [Ahmed+, ICSE'23]          |        クラウド        |       根本原因と緩和策の予測       |         インシデントの履歴。タイトルとサマリーのみ。         |                  Instruction Tuning                  |        GPT-3.5        |    
+|        [Jin+, FSE'23] (Oasis)        |        クラウド        | 関連する複数のインシデントの要約テキストの生成 |         インシデントの履歴。手動作成の要約を含む。          |                  Instruction Tuning                  |    GPT-3 / GPT-3.5    |    
+|           [Zhang+, 2024]            |        クラウド        |         根本原因の予測         |               インシデントの履歴                |                    RAG + Few-Shot                    |         GPT-4         |    
+|      [Zhang+,2023] (PACE-LM)       |        クラウド        |   予測された根本原因の信頼性スコアの計算   |               インシデントの履歴                |                    RAG + Few-Shot                    |         GPT-4         |    
+| [Samanta+, CLOUD'23] (InsightsSumm) | クラウド /<br>アプリケーション |      障害の要約テキストの生成       |   アラート、トポロジー、ログ、メトリクス（Golden Signal）   |                       Few-Shot                       | ChatGPT / Flan T5 XXL |    
+|  [Chen+, EuroSys'24] (RCACopilot)   |      メールサービス       |       根本原因カテゴリの予測       |        テレメトリ（メトリクス/ログ）、インシデント履歴        |                    RAG + Few-Shot                    |         GPT-4         |    
+|    [Komal+, CASCON'23] (ADARMA)    |      マイクロサービス      |     障害の修復のためのコード生成      |       テレメトリ（メトリクス/ログ）、公開Runbook        |             Few-Shot, Instruction Tuning             |          NA           |    
+|            [Roy+,2024]             |        クラウド        |         根本原因の予測         |        インシデント履歴と詳細、Runbook相当の文書        |                   LLMエージェント（ReAct）                   |         GPT-4         |    
+|       [Wang+,2023] (RCAgent)       |        クラウド        |         根本原因の予測         |            非構造化データ（ログ/コード）             | Zero-Shot CoT, LLMエージェント（ReActの拡張）, Self-Consistency |        Vicuna         |    
+|      [Hamadanian+,HotNets'23]      |       ネットワーク       |         緩和計画の生成         |         インシデントの情報とメタデータ（詳細不明）          |                      LLMエージェント                       |          NA           |    
+|        [Zhou+, 2023] (D-Bot)         |       データベース       | 症状、根本原因、緩和策を含む診断レポートの生成 |     データベース製品文書、pg_stat_statements、     |                 LLMエージェント, マルチエージェント                 |         GPT-4         |    
+|        [Singh+,2024] (Panda)        |       データベース       | 症状、根本原因、緩和策を含む診断レポートの生成 |     Auroraのwaitイベント文書と250のDBメトリクス      |                         RAG                          |         GPT-4         |    
+|      [Jiang+, ICSE'24] (Xpert)      |        クラウド        | テレメトリデータ分析用ドメイン固有言語の生成  | インシデント履歴（メタデータ、タイトル、概要、ディスカッション）、クエリ履歴 |                    Few-Shot + RAG                    |    GPT-3.5 / GPT-4    |    
 
 **対象システム**: D-BotとPandaはデータベースシステムの、[Hamadanian+,HotNets'23]はネットワークシステムの障害診断を対象とする。それ以外のほとんどの論文では細部の対象指定はなく単に"クラウドシステム"と記述されており、IaaSやPaaSに限るのか、SaaSやWebアプリケーションも含むかは定かではない。
 
@@ -114,11 +111,13 @@ OpenAI APIには、gpt-3.5-turboやgpt-4(experimental)を対象としたInstruct
 
 ## LLMによる障害診断論文の個別紹介
 
-主要な障害診断論文を一つずつ取り上げ、論文の概要と論文に対する自分の主観を交えた感想を個別に紹介する。概要は論文に記載されているAbstractそのものではなく、自分なりにまとめたものである。個別の論文を詳細までは解説しきれないため、詳細を知りたい場合は本文を直接読んでみてほしい。
+主要な障害診断論文を一つずつ取り上げ、論文の概要と論文に対する自分の主観を交えた感想を個別に紹介する。概要は論文に記載されているAbstractそのものではなく、自分なりにまとめたものである。感想は、その論文を読んだ当時に書いたものである。個別の論文を詳細までは解説しきれないため、詳細を知りたい場合は本文を直接読んでみてほしい。
 
 ### [[Ahmed+,ICSE'23]: "Recommending Root-Cause and Mitigation Steps for Cloud Incidents using Large Language Models"](https://arxiv.org/abs/2301.03797)
 
 概要：LLMをAIOpsへ適用する初の研究。Microsoftの40,000件以上のインシデントのタイトルやサマリーなどのテキストデータを用いて、インシデントの根本原因特定と緩和策の提案の２つのタスクに対して、LLMの有効性を評価した。自動メトリクスと人間へのインタビューの評価の結果、LLMのある程度の有用性と将来性が期待できることが実証された。Davinci-002（GPT-3.5）はGPT-3の全モデルに対してそれぞれ少なくとも15.38％、11.9％の性能向上を達成した。また、GPT-3.xモデルをファインチューニングすることで、ゼロショットに対して、LLMの有用性が大幅に向上することが発見された。Microsoftのブログ記事<https://www.microsoft.com/en-us/research/blog/large-language-models-for-automatic-cloud-incident-management/>でも本論文が解説されている。
+
+[https://www.microsoft.com/en-us/research/uploads/prod/2023/05/ICSE-AIOps-figure-2n.jpg:image=https://www.microsoft.com/en-us/research/uploads/prod/2023/05/ICSE-AIOps-figure-2n.jpg:small]
 
 感想：MSならではの大規模なデータセットで最速でLLMを評価していることは非常に興味深い。LLMではない既存の機械学習によるデータ解析手法と比較してどの程度よいのかの比較と、実インシデントにLLMを用いて対応する事例はまだないため、あくまでLLMの将来性を確認する研究であると位置づけられる。GPT-4が登場する以前に公開された論文なので、GPT-4で評価されていないが、GPT-4で性能が向上するかに注目したい。さらに、インシデントのタイトルとサマリー以外に、チャット上でのエンジニアの対応ログや、システム構成データ、ソースコード、各種ソフトウェアのドキュメントやチケットデータなどのテキストデータを学習することで、性能が向上する可能性がある。
 
@@ -126,11 +125,15 @@ OpenAI APIには、gpt-3.5-turboやgpt-4(experimental)を対象としたInstruct
 
 概要：Microsoftのクラウド（おそらくAzure）では1度の障害で複数のインシデントが発生することがあり、それらの影響範囲を手動で評価し、要約することは困難である。Microsoftの過去3年間の18のクラウドシステムからのインシデントデータを用いて、障害の悪影響とエンジニアの対処法を実証調査した。その結果、エンジニアによる手動評価時間の中央値は1時間であった。さらに、ルールベース、インシデント履歴、深層学習による3つのインシデントリンク法の組み合わせにより障害の影響範囲を自動で特定する手法を提案し、そのリンク構造から、障害の要約をGPT-3.5の事前のファインチューニングとプロンプティングにより実現する。評価の結果、GPT-3モデル（DaVinci）を用いたOasisが語彙評価指標で最高となり、人間による評価でも54名中32名のエンジニアが、Oasis-DaVinciの要約を最も優れていると評価した。
 
+[https://pbs.twimg.com/media/GIb6Px_bkAA5A5E?format=jpg&name=small:image=https://pbs.twimg.com/media/GIb6Px_bkAA5A5E?format=jpg&name=small]
+
 感想：MSのおそらくAzureを対象とするため、1個の障害に対して、複数のインシデントが紐づけられる、かなり大規模な問題設定となっている。本論文では、第一コンポーネントである影響範囲法自体の定量的評価は行われていないが、Microsoftで3年以上にわたって広く使用されていると記述されている。したがって、この論文の主な貢献は、MSの大規模なインシデントの実証調査報告部分とLLMという流行の技術を用いた要約生成部分になる。要約生成のロジック自体は単純であり、ファインチューニングによる貢献が大きいものと思われる。また、要約作成までの時間が中央値１時間とあるが、その内訳は書かれておらず、インシデントのリンク付けのほうが時間を要している可能性もある。その場合、要約生成は手動でも自動でもあまり総合的な時間はかわらない可能性もある。GPT-4など上位のモデルはファインチューニングの方法を提供していないため、プロンプティングや拡張言語モデルにより同等の要約性能を達成できないだろうか。
 
 ### [[Zhang+,2024]: "Automated Root Causing of Cloud Incidents using In-Context Learning with GPT-4"](https://arxiv.org/abs/2401.13810)
 
 概要：Microsoft Researchからの、GPT-4を用いてクラウドのインシデントの履歴データから根本原因分析を自動化するシステムの提案論文。履歴データをすべて個別にGPT-3.5で要約・埋め込みベクトル化し、発生中のインシデントの記述と関連するインシデントを検索しプロンプトに含める文脈内学習を行う。約10万件のインシデントデータを用いた実験の結果、GPT-4ベースの提案法は、GPT-3ファインチューニングよりも24.77%高い精度となったが、GPT-3.5ベースの提案法はまだ及ばない結果であった。人間による評価では、提案法が正しさの点で43.5%高いスコアを獲得した。その他、プロンプトに含める過去インシデント例の個数や質、順序を変化させたり、GPTファミリーごとの性能差についても定量的に比較されている。
+
+[https://pbs.twimg.com/media/GHd2CH-bYAAzHTY?format=jpg&name=small:image=https://pbs.twimg.com/media/GHd2CH-bYAAzHTY?format=jpg&name=small]
 
 感想：ドメイン特化のファインチューニングモデルに対して、単純なチャンク分割ではないインシデントデータに特化したRAG手法が性能で凌駕したと解釈した。提案法は単純だが、Few Shotの例の数や質、順序によりどのように性能が変化するかを細かく定量的に比較していることが貢献である。RCACopilotやRCAgentはまさにこの論文で提示されている今後の課題に取り組んだようなアプローチがなぜ本論文で取り上げられていないのかは不明である。また、提案法はファインチューニング済みGPT-4相当のモデルと比較しないとフェアな比較とは言えない。
 
@@ -138,23 +141,31 @@ OpenAI APIには、gpt-3.5-turboやgpt-4(experimental)を対象としたInstruct
 
 概要：Microsoft Researchからの、LLMによる根本原因の予測結果を過去のインシデント履歴を用いてキャリブレーションされた信頼度を推定する手法PACE-LMの提案論文。推定のプロセスは2段階あり、まず、現在のインシデントの根本原因について推論するのに十分な証拠を過去のインシデント履歴が持っているかどうかの二値をLLMに分析させる。次に、その分析のための会話ログをプロンプトに含めて、生成された根本原因をスコアリングするようにLLMに依頼する。GPTのパラメータTemperatureを1にして、サンプリングした経験平均をスコアとする。最後に、各段階のそれぞれのスコアを結合し、最適な信頼度区間に割り当てるための最適化を行う。
 
+[https://pbs.twimg.com/media/GH-Er6kb0AAgd2r?format=jpg&name=small:image=https://pbs.twimg.com/media/GH-Er6kb0AAgd2r?format=jpg&name=small]
+
 感想：本論文は、[Zhang+,2024]のRAGベースの根本原因予測に対して、信頼度スコアを追加で算出することを提案するような格好である。分析とスコアリングでステップを分けるとなぜうまくいくのかは疑問ではあるが、推論の手順を指示することはChain-of-Thoughtに近い。一旦「過去データは現在のインシデント分析の役に立つかを分析させて」その結果をスコアリングで再評価するというのはおもしろい。 $I_a$と$I_s$のプロンプト文次第で、結果が左右されるはずなので、プロンプト文が示されていないのは再現性に影響する。
 
 ### [[Chen+,EuroSys'24 (RCACopilot)]  "Automatic Root Cause Analysis via Large Language Models for Cloud Incidents"](https://arxiv.org/abs/2305.15778)
 
 概要：Microsoftにおけるクラウドのインシデントの根本原因カテゴリをLLMで自動で推論するシステムRCACopilotの提案論文。インシデント対応時にエンジニアが複数のデータソースから手動でデータを精査することが難しいことに対して、1)アラート種別ごとに、ルールベースのプログラムを組み合わせた決定木ライクなハンドラを構築し、これにより診断情報を収集し、2)LLMを用いて一旦診断情報を要約した上で、さらに過去の類似インシデントのFew Shot学習により根本原因カテゴリとその説明を提供する。Microsoftのメールサービスシステムの653件のインシデントデータを用いた実験ではXGBoost、FastText、Fine-tuned LLM、素のGPT-4、GPT-4 embeddingに対して、予測精度が大幅に向上し、平均15秒以内に応答できている。
 
-感想：アドホックな動機や設計が気になるが、現場寄りの高度なオンコールシステムの設計が提案されていることはおもしろい。 根本原因のカテゴリ予測のみにタスクを限定しているが、なぜ限定するかについては納得の行く説明は含まれていなかった。診断情報収集ステージのハンドラはルールベースのプログラムの集合であり、フローやアクションのフックとなるスクリプトをアラートタイプごとに事前に整備しておかなければならない。これはエンジニアに大きな作業コストを要求する可能性がある。具体的には、ハンドラ内で、複数のデータソースから必要なデータを取得するためのクエリパラメータをどのようにして決定するのか？、どの基準でスコープを切り替えるのか？といった細部の疑問を解消していかなければならない。Pandaと同様、文脈内学習の範疇で高い精度を達成していることは、社会実装する際の重要な示唆である。
+[https://pbs.twimg.com/media/GHQm1yLaQAA4a2t?format=jpg&name=small:image=https://pbs.twimg.com/media/GHQm1yLaQAA4a2t?format=jpg&name=small]
+
+感想：ハンドラ構築についてアドホックにみえる設計が気になるが、現場寄りの高度なオンコールシステムの設計が提案されていることはおもしろい。 根本原因のカテゴリ予測のみにタスクを限定しているが、なぜ限定するかについては納得の行く説明は含まれていなかった。診断情報収集ステージのハンドラはルールベースのプログラムの集合であり、フローやアクションのフックとなるスクリプトをアラートタイプごとに事前に整備しておかなければならない。これはエンジニアに大きな作業コストを要求する可能性がある。具体的には、ハンドラ内で、複数のデータソースから必要なデータを取得するためのクエリパラメータをどのようにして決定するのか？、どの基準でスコープを切り替えるのか？といった細部の疑問を解消していかなければならない。Pandaと同様、RAGの範疇で高い精度を達成していることは、社会実装する際の重要な示唆である。
 
 ### [[Roy+,2024]: "Exploring LLM-based Agents for Root Cause Analysis"](https://arxiv.org/abs/2403.04123)
 
 概要：Microsoftから、クラウドのインシデントの根本原因特定の自動化を、データを収集できる外部環境とのインタラクションをもつLLMのエージェントを用いた手法を実装・評価する論文。評価のための手法は既存のReActを基に実装される。ReActは段階的な推論とツールの使用によりLLMを拡張する。ツールでアクセス可能なデータは要約前のインシデントの詳細と過去のインシデント履歴である。ゼロショットにて、ReActはRAGやCoTのようなベースラインと競合する性能を持ち、かつハルシネーションの割合が大幅に低くなることを示した。MS社内のRunbookやトラブルシューティングガイドに相当するKBAと呼ばれる文書にアクセス可能とし、かつ、コンソールへのログインなど人間への介入したときの可能性があることを明らかにした。
 
-感想：本研究で初めて提案されたとされるエージェントベースのRCAには、AlibabaからのRCAgentが存在するがなぜこの論文が参照されていないかは不明である。エージェントの文脈で、KBAと表記されるいわゆるRunbookやトラブルシューティングガイド（TSGs）の、ポストモーテムにはない診断プロセスの重要性が強調されていることは興味深い。 最後の研究の方向性については、まさに自分が考えるInteractive AIOpsに近い話である。
+[https://pbs.twimg.com/media/GIYGD8ebMAAaO6C?format=png&name=small:image=https://pbs.twimg.com/media/GIYGD8ebMAAaO6C?format=png&name=small]
+
+感想：本研究で初めて提案されたとされるエージェントベースのRCAには、以前より後述するAlibabaから発表されたRCAgentが存在するが、なぜRCAgent論文が参照されていないかはわからない。エージェントの文脈で、KBAと表記されるいわゆるRunbookやトラブルシューティングガイド（TSGs）の、ポストモーテムにはない診断プロセスの重要性が強調されていることは興味深い。 
 
 ### [[Wang+,2023 (RCAgent)]: "RCAgent: Cloud Root Cause Analysis by Autonomous Agents with Tool-Augmented Large Language Models"](https://arxiv.org/abs/2310.16340)
 
 概要：Alibabaにおけるクラウドインシデントの根本原因をLLMを用いて自動で推論するシステムの提案論文。LLMによる障害診断の既存手法は、ファインチューニングやRAGベースのものがあるが、すべてGPTファミリーとMicrosoft内のシナリオに基づいていることから、データプライバシーの懸念がある。そこで、プライバシーの懸念と手動ワークフロー設計の問題に対処する、ツール拡張型の自律エージェントRCAgentを提案している。RCAgentは、プライバシー懸念を解消するローカルのオープンLLM（Vicuna）、ワークフローの手動設計を必要としない行動軌跡レベルのゼロショット、および、コンテキスト長を短縮するための、多様な非構造化データ型を集約するためのプロンプトフレームワーク、ノイズの多いデータの修正、自己一貫性による行動軌跡の集約機構などを備える。実験では、ツール拡張型自律エージェントの代表であるReActに対して、全ての側面でRCAgentが凌駕しており、特にエビデンスの予測において従来の手法を改善している。
+
+[https://pbs.twimg.com/media/GHUqprUa4AAPe1z?format=jpg&name=small:image=https://pbs.twimg.com/media/GHUqprUa4AAPe1z?format=jpg&name=small]
 
 感想：過去のインシデントデータをおそらくは用いずにRCAシステムを組み上げている例として興味深い。Self-Consistency Aggregationの機構は理解することがかなり困難であった。おそらく、ReActについての理解がないとなぜ集約する必要があるのかの動機からしてわからない。LLMとして、Vicunaを用いているが、2024年2月現在公開されているより性能の高いLLMであれば、どの程度システムを簡易化できるのだろうか。
 
@@ -162,11 +173,15 @@ OpenAI APIには、gpt-3.5-turboやgpt-4(experimental)を対象としたInstruct
 
 概要：中国の清華大学のDB研究グループによる、LLMを用いたDBの異常診断システムD-Botを提案する論文。D-Botのソースコードは、<https://github.com/TsinghuaDatabaseGroup/DB-GPT>に公開されている。既存の半自動診断ツールは、1)診断シナリオが限られている、2)DBバージョンに応じた診断ルールの更新が手間である、3)反復的な推論能力を持たないなどの課題がある。GPT-4でもDBドメイン固有の診断知識を直接学習できない(精度50%以下)。そこでD-Botは、ドキュメントから知識とツールを抽出し、現在の異常の内容をもとに、関連する知識とツールを検索しプロンプトに含め、診断の過程では、複数回のLLMの投票をもとに最も有望なものを選択するようLLMを誘導するツリーベースの探索戦略を導入し、プロンプトが異なる複数のLLMエキスパートが非同期で協調して診断する。PostgreSQLを用いた評価の結果、ベースラインに対して顕著な改善(8%~54%)を達成し、人間の専門知識とさえ拮抗し、一部は上回っている。
 
+[https://pbs.twimg.com/media/GH0HOKDbAAACcL0?format=jpg&name=small:image=https://pbs.twimg.com/media/GH0HOKDbAAACcL0?format=jpg&name=small]
+
 感想：RCAgentのように、LLMをエージェントとして振る舞わせ、段階的な推論過程を踏みながら診断を行っていく様は非常に興味深い。今後は、原因診断にLLMを適用する場合は、LLMを推論機械とみなし、いかに必要なドメイン知識をプロンプトに注入するか、いかに複数の推論ステップを踏ませ、いかに複数の推論指向を用意できるように推論過程を設計するか。LLM自体の推論能力が高まった場合にどうなるのか。推論過程を人間からみえる分、結果の説明性が高いかもしれない。
 
 ### [[Singh+,CIDR'24, (Panda)]: "Panda: Performance Debugging for Databases using LLM Agents"](https://www.amazon.science/publications/panda-performance-debugging-for-databases-using-llm-agents)
 
 概要：AWSのAI研究グループによるデータベースのデバッギングにLLMを応用するシステムの提案論文。DBのデバッギングはそのDBの文脈を踏まえる必要があるが、GPT-4の応答は一般的なベストプラクティスしか出力しない。RAGを用いるにも、非構造化テキストであるマルチモーダルデータに対してどのようにRAGを応用するかは自明ではない。提案するLLM駆動の自律型DBデバッグエージェントは、文脈を補完するためのGrounding、引用を生成するためのVerification、高リスクのアクションを強調するAffordance、改善のためのフィードバックを収集可能なFeedbackの4つの特性をもつ。合計6.25MトークンのAurora PostgreSQLとMySQLのwaitイベントドキュメントと、1分間の粒度で7日間かけて収集された合計250のDBメトリクスを用いて、GPT-3.5を基にした提案システムとGPT-4を比較した結果、人間による応答のスコア評価では、Pandaは信頼度、理解度、有用度においてGPT-4を凌駕した。Amazon Scienceのブログ記事<https://www.amazon.science/publications/panda-performance-debugging-for-databases-using-llm-agents>でも本論文が解説されている。
+
+[https://pbs.twimg.com/media/GHWKvuabsAAl2hN?format=jpg&name=small:image=https://pbs.twimg.com/media/GHWKvuabsAAl2hN?format=jpg&name=small]
 
 感想：DBのデバッギングに関して、人間のエンジニアが検索して取得するデータを集めてきて、GPTにそのデータ片をヒントに推論させれば望む回答が得られるのは直感的にもうまくいくように思う。文中では等に強調されていないが、膨大のメトリクスから絞り込むのではなく、関連文書内に含まれるメトリクス名からtop-kの類似度をもつメトリクスを取得する方法は即興的で簡便だが確かにうまく動作する可能性がある。メトリクスの時系列データをどのようにテキスト化しているかは文中の説明だけではわからなかった。おそらく、時系列データのベクトルそのものを直接テキストにするのではなく、変化点時刻やトレンド、p95などのスカラー値のみをテキストとして含めているのではないか。
 
@@ -256,7 +271,7 @@ LLMを用いないAIOpsでは、モデルの予測結果を人間への説明性
 
 ### LLMの推論能力の制限と発展
 
-この記事で紹介した論文のほとんどがGPTシリーズを用いている。その一方で、プライバシーなどの理由から、[オープンなLLM](https://github.com/Hannibal046/Awesome-LLM?tab=readme-ov-file#open-llm)を使いたい動機がある。
+この記事で紹介した論文のほとんどがGPTシリーズを用いている。その一方で、プライバシーなどの理由から、オープンなLLM((https://github.com/Hannibal046/Awesome-LLM?tab=readme-ov-file#open-llm))を使いたい動機がある。
 
 RCAgentはオープンなLLMを用いる数少ない手法である。しかし、GPT-4と比較して、 論文内では、スコアリングさせたときに、モデルは1と9しか提供できず、評価に多様性がないことや、ドキュメントの調整をしないと、エージェントは存在しない関数を呼び出すか、関数呼び出しのパラメータ化を誤る危険性があること、が指摘されている。
 
@@ -268,6 +283,9 @@ RCAgentはオープンなLLMを用いる数少ない手法である。しかし�
 
 この記事では、LLMによるシステム障害診断法に関する最新の研究動向を紹介した。SREの障害診断にLLMを応用する際に考慮すべきは、産業データとしての秘匿性（ローカルシステムの固有データ）とグローバルなドメイン知識の必要性（製品ドキュメントなど）、これらの2種類の外部知識の更新の必要性、オペレーションのための外部ツールの操作性、推論・観測・操作などを繰り返す反復性、といった性質である。これらのSRE全般、あるいはソフトウェアエンジニアリング全般に共通する性質でもあるため、この記事の内容は、隣接分野のLLM応用の世界を探索する際の参考になるかもしれない。
 
-この記事により、LLM4SREの世界が今どうなっているのかをソフトウェアエンジニアリングのコミュニティに届けられ、興味を持ってもらえれば幸いである。LLMを含む生成AIに関する技術は急速に発展しているため、今日紹介した技術の課題を解決する技術が今後もすぐに登場する可能性はある。しかし、この記事を土台にしてもらえれば、それらの技術がなぜ優れているのかを比較的容易に理解できるかもしれない。
+この記事により、LLM4SREの世界が今どうなっているのかをソフトウェアエンジニアリングのコミュニティに届けられ、興味を持ってもらえれば幸いである。LLMを含む生成AIに関する技術は急速に発展しているため、今日紹介した技術の課題を解決する技術が今後もすぐに登場する可能性はある。しかし、この記事を理解の土台にすれば、それらの技術がなぜ優れているのかを比較的容易に理解できるかもしれない。
 
-これを機にSRE論文を読もうと思われた人は、以前に自分が書いた、SRE論文の探し方と読み方をまとめた記事も読んでみてほしい。[エンジニアのためのSRE論文への招待 - SRE NEXT 2023 - ゆううきブログ](https://blog.yuuk.io/entry/2023/srenext2023)
+これを機にSRE論文を読もうと思われた人は、SRE論文の探し方と読み方をまとめた以前の記事も読んでみてほしい。
+
+[https://blog.yuuk.io/entry/2023/srenext2023:embed]
+
